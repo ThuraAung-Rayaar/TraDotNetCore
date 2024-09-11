@@ -1,3 +1,3 @@
 # traDotNetCore
 
-##Core net Trading
+##Core net Training
