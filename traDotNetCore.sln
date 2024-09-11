@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "traDotNetCore.ConsoleApp", "traDotNetCore.ConsoleApp\traDotNetCore.ConsoleApp.csproj", "{66344293-F771-4DE6-A97B-E3D722A24469}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{71D33ED1-F4EF-48BD-9E3F-EDCA12C7E1A7}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
