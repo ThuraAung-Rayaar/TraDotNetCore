@@ -11,5 +11,9 @@ Console.WriteLine("TEsting IN process");
 
 
 adoDotnetExample example = new adoDotnetExample();
-example.read();
-example.Update();
+example.readTable();
+example.DeleteData();
+example.readTable();
+//xample.Update();
+//example.InsertData();
+//example.ReadOnly();

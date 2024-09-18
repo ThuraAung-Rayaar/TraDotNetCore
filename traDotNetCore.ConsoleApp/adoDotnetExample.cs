@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Reflection.Metadata;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -11,7 +13,7 @@ namespace traDotNetCore.ConsoleApp
     public class adoDotnetExample
     {
         string connectionString = "Data Source = .;Initial Catalog = DotNetTraningBatch5;User ID =sa; Password = sa@123sa@123;";
-        public void read() {
+        public void readTable() {
             
             Console.WriteLine("Connecting String: " + connectionString);
             SqlConnection connection = new SqlConnection(connectionString);
@@ -73,16 +75,113 @@ namespace traDotNetCore.ConsoleApp
 
         }
 
+        public string ReadOnly() {
+
+            Console.Write("Select ID:");
+            string id = Console.ReadLine();
+           // string title = "", author = "", content = "";
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+            string queryRead = $@"select * from [dbo].[Tbl_Blog] where BlogId = @ID";
+
+            SqlCommand cmdRead = new SqlCommand(queryRead, connection);
+            cmdRead.Parameters.AddWithValue("@ID", id);
+            SqlDataReader reader = cmdRead.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                reader.Read();
+                Console.Write(reader["BlogTitle"] + "\t");
+                Console.Write(reader["BlogAuthor"] + "\t");
+                Console.Write(reader["BlogContent"] + "\n");
+                
+            }
+
+            Console.WriteLine("Closing sql Connection");
+            connection.Close();
+            return id;
+           // Console.ReadKey();
+        }
+
+
+        public void DeleteData() {
+
+            string id = ReadOnly();
+            SqlConnection connection = new SqlConnection(connectionString);
+            connection.Open();
+            string query = $@"delete from Tbl_Blog where BlogId = {id} ";
+            SqlCommand cmdDelete = new SqlCommand(query,connection);
+            cmdDelete.Parameters.AddWithValue("@ID", id);
+            int result = cmdDelete.ExecuteNonQuery();
+            Console.WriteLine((result >= 1) ? "Delete SuccessFully" : "Fail to Delete");
+            connection.Close();
+
+
+        
+        
+        }
+
+        public void InsertData() {
+            string title = "", author = "", content = "";
+            //string temp;
+            Console.Write("ENter New Title or Enter key for null ");
+           /* temp = Console.ReadLine();
+            title = string.Equals(temp, "") ? title : temp;*/
+            title = Console.ReadLine();
+
+            Console.Write("ENter New Author or Enter key for null ");
+            /*temp = Console.ReadLine();
+            author = string.Equals(temp, "") ? author : temp;*/
+             author = Console.ReadLine();
+
+            Console.Write("ENter New BlogContent or Enter key for null ");
+            /*temp = Console.ReadLine();
+            content = string.Equals(temp, "") ? content : temp;*/
+             content = Console.ReadLine();
+
+            string flag = "0";
+
+
+            
+            //Console.WriteLine("Connecting String: " + connectionString);
+            SqlConnection connection = new SqlConnection(connectionString);
+            // Console.WriteLine("Opening sql Connection");
+            connection.Open();
+          
+            string queryInsert = $@"insert into Tbl_Blog values (@BlogTitle,@BlogAuthor,@BlogContent,@DeleteFlag)";
+            SqlCommand cmdInsert = new SqlCommand(queryInsert, connection);
+            cmdInsert.Parameters.AddWithValue("@BlogTitle", title);
+            cmdInsert.Parameters.AddWithValue("@BlogAuthor", author);
+            cmdInsert.Parameters.AddWithValue("@BlogContent", content);
+            cmdInsert.Parameters.AddWithValue("@DeleteFlag", flag);
+            /*SqlDataAdapter adapter = new SqlDataAdapter(cmdInsert);
+            DataTable dt = new DataTable();
+            adapter.Fill(dt);*/
+
+            int result = cmdInsert.ExecuteNonQuery();
+
+
+            Console.WriteLine((result  >= 1)? "Insert SuccessFully":"Fail INsertion");
+
+
+            connection.Close();
+            Console.ReadKey();
+
+
+
+        }
+
+
         public void Update() {
 
-            Console.Write("Select ID to Update :");
-            string id = Console.ReadLine();
- string title = "", author = "", content = "";
-            Console.WriteLine("Connecting String: " + connectionString);
+           // Console.Write("Select ID to Update :");
+            string id = ReadOnly();
+            string title = "", author = "", content = "";
+           // Console.WriteLine("Connecting String: " + connectionString);
             SqlConnection connection = new SqlConnection(connectionString);
-            Console.WriteLine("Opening sql Connection");
+           // Console.WriteLine("Opening sql Connection");
             connection.Open();
-            Console.WriteLine("Sql Connection OPened");
+           // Console.WriteLine("Sql Connection OPened");
 
             string queryRead = $@"select * from [dbo].[Tbl_Blog] where BlogId ='{id}'";
 
@@ -97,9 +196,9 @@ namespace traDotNetCore.ConsoleApp
 
             }
 
-            Console.WriteLine("Closing sql Connection");
+            //Console.WriteLine("Closing sql Connection");
             connection.Close();
-            Console.WriteLine("Sql Connection closed");
+            //Console.WriteLine("Sql Connection closed");
 
 
             string temp;
@@ -127,10 +226,10 @@ namespace traDotNetCore.ConsoleApp
             Console.WriteLine("Sql Connection OPened");
 
             string query = $@"UPDATE [dbo].[Tbl_Blog]
-        SET [BlogTitle] = '{title}'
-      ,[BlogAuthor] = '{author}'
-      ,[BlogContent] ='{content}'
-      ,[DeleteFlag] ='{flag}'
+        SET [BlogTitle] = @BlogTitle
+      ,[BlogAuthor] = @BlogAuthor
+      ,[BlogContent] =@BlogContent
+      ,[DeleteFlag] =@DeleteFlag
         WHERE BlogId = '{id}'";
 
             SqlCommand cmdUpdate = new SqlCommand(query, connection);
@@ -146,7 +245,7 @@ namespace traDotNetCore.ConsoleApp
             connection.Close();
             Console.WriteLine("Sql Connection closed");
 
-            read();
+            readTable();
 
         }
 
