@@ -115,10 +115,10 @@ namespace traDotNetCore.ConsoleApp
             int result = cmdDelete.ExecuteNonQuery();
             Console.WriteLine((result >= 1) ? "Delete SuccessFully" : "Fail to Delete");
             connection.Close();
+            Console.ReadKey();
 
 
-        
-        
+
         }
 
         public void InsertData() {
@@ -237,14 +237,15 @@ namespace traDotNetCore.ConsoleApp
             cmdUpdate.Parameters.AddWithValue("@BlogAuthor", author);
             cmdUpdate.Parameters.AddWithValue("@BlogContent", content);
             cmdUpdate.Parameters.AddWithValue("@DeleteFlag", flag);
-            DataTable dt = new DataTable();
+            /*DataTable dt = new DataTable();
             SqlDataAdapter adapter = new SqlDataAdapter(cmdUpdate);
-            adapter.Fill(dt);
+            adapter.Fill(dt);*/
+            cmdUpdate.ExecuteNonQuery();
 
-            Console.WriteLine("Closing sql Connection");
+            //Console.WriteLine("Closing sql Connection");
             connection.Close();
-            Console.WriteLine("Sql Connection closed");
-
+           // Console.WriteLine("Sql Connection closed");
+           Console.ReadKey();
             readTable();
 
         }
