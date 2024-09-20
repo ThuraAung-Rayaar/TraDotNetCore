@@ -12,7 +12,7 @@ Console.ReadKey();
 
 EfCoreExample efCore = new EfCoreExample();
 efCore.Read();
-efCore.Create("Bla Bla", "Bla Bla BLA", "Bla Bla BLA Bla Bla BLA");
+//efCore.Create("Bla Bla", "Bla Bla BLA", "Bla Bla BLA Bla Bla BLA");
 efCore.Delete(13);
 
 /*DapperExample dap = new DapperExample();
