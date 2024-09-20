@@ -7,13 +7,20 @@ Console.WriteLine("Hello, World!");
 int a = 50;
 Console.WriteLine(Math.Pow(a, 121));
 Console.WriteLine("TEsting IN process");
-//Console.ReadKey();
+Console.ReadKey();
 
+
+DapperExample dap = new DapperExample();
+dap.Read();
+dap.Delete(3);
+dap.ReadOnly();
+//dap.Update("POpo", "Nolar","Name Change to Nolar");
+//dap.Create("Moli", "Nolan", "He is a moli Nolen");
 
 adoDotnetExample example = new adoDotnetExample();
-example.readTable();
+//example.readTable();
 //example.DeleteData();
 //example.readTable();
-example.Update();
+//example.Update();
 //example.InsertData();
 //example.ReadOnly();

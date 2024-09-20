@@ -109,7 +109,7 @@ namespace traDotNetCore.ConsoleApp
             string id = ReadOnly();
             SqlConnection connection = new SqlConnection(connectionString);
             connection.Open();
-            string query = $@"delete from Tbl_Blog where BlogId = {id} ";
+            string query = $@"Update Tbl_Blog set DeleteFlag = 1 where BlogId = {id} ";
             SqlCommand cmdDelete = new SqlCommand(query,connection);
             cmdDelete.Parameters.AddWithValue("@ID", id);
             int result = cmdDelete.ExecuteNonQuery();
