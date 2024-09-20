@@ -10,10 +10,15 @@ Console.WriteLine("TEsting IN process");
 Console.ReadKey();
 
 
-DapperExample dap = new DapperExample();
+EfCoreExample efCore = new EfCoreExample();
+efCore.Read();
+efCore.Create("Bla Bla", "Bla Bla BLA", "Bla Bla BLA Bla Bla BLA");
+efCore.Delete(13);
+
+/*DapperExample dap = new DapperExample();
 dap.Read();
 dap.Delete(3);
-dap.ReadOnly();
+dap.ReadOnly();*/
 //dap.Update("POpo", "Nolar","Name Change to Nolar");
 //dap.Create("Moli", "Nolan", "He is a moli Nolen");
 

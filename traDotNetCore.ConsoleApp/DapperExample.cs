@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using traDotNetCore.ConsoleApp.vModels;
+using traDotNetCore.ConsoleApp.Models;
 
 namespace traDotNetCore.ConsoleApp
 {
@@ -21,7 +21,7 @@ namespace traDotNetCore.ConsoleApp
             {
 
                 string query = "select * from Tbl_Blog where DeleteFlag = 0 ";
-                var TemList = db.Query<BlogDataModel>(query).ToList();
+                var TemList = db.Query<DapperDataModel>(query).ToList();
 
                 foreach (var item in TemList)
                 {
@@ -39,9 +39,9 @@ namespace traDotNetCore.ConsoleApp
 
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                Console.Write("Enter Blog ID To Update"); string id = Console.ReadLine();
+                Console.Write("Enter Blog ID "); string id = Console.ReadLine();
                 string query = "select * from Tbl_Blog where DeleteFlag = 0 and BlogId = @BlogID ";
-                var item = db.Query<BlogDataModel>(query, new
+                var item = db.Query<DapperDataModel>(query, new
                 {
                     BlogID = id
                 }).FirstOrDefault();
