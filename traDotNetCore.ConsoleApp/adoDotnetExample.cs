@@ -12,7 +12,7 @@ namespace traDotNetCore.ConsoleApp
 {
     public class adoDotnetExample
     {
-        string connectionString = "Data Source = .;Initial Catalog = DotNetTraningBatch5;User ID =sa; Password = sa@123sa@123;";
+        string connectionString = "Data Source = .;Initial Catalog = DotNetTraningBatch5;User ID =sa; Password = sasa@123;";
         public void readTable() {
             
             Console.WriteLine("Connecting String: " + connectionString);

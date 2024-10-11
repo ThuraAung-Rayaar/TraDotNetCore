@@ -13,7 +13,7 @@ namespace traDotNetCore.ConsoleApp
     {
 
         public void Read() {  
-        AppDbContent dbContent = new AppDbContent();
+        AppDbContext dbContent = new AppDbContext();
         var lst = dbContent.Blogs.Where(x=> x.DeleteFlag == false).ToList();
             foreach (var item in lst)
             {
@@ -28,7 +28,7 @@ namespace traDotNetCore.ConsoleApp
 
         public void Create(string Title, string author, string content) {
 
-            AppDbContent dbContent = new AppDbContent();
+            AppDbContext dbContent = new AppDbContext();
             BlogDataModel blog = new BlogDataModel() { 
             BlogAuthor = author,
             BlogContent = content,
@@ -49,7 +49,7 @@ namespace traDotNetCore.ConsoleApp
         public void Edit(int id)
         {
 
-            AppDbContent dbContent = new AppDbContent();
+            AppDbContext dbContent = new AppDbContext();
             var item = dbContent.Blogs.FirstOrDefault(x=>x.BlogId == id);
             if (item is null)
             {
@@ -79,7 +79,7 @@ namespace traDotNetCore.ConsoleApp
         {
             //Edit(id); 
            // AppDbContent dbContent = new AppDbContent();
-            AppDbContent dbContent = new AppDbContent();
+            AppDbContext dbContent = new AppDbContext();
             var item = dbContent.Blogs.AsNoTracking()
                 .FirstOrDefault(x => x.BlogId == id);
             if (item is null)
@@ -101,7 +101,7 @@ namespace traDotNetCore.ConsoleApp
 
         public void Delete(int id)
         {
-            AppDbContent dbContent = new AppDbContent();
+            AppDbContext dbContent = new AppDbContext();
             var item = dbContent.Blogs.FirstOrDefault(y => y.BlogId == id );
             if (item is null)
             {

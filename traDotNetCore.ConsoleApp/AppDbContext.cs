@@ -8,7 +8,7 @@ using traDotNetCore.ConsoleApp.Models;
 
 namespace traDotNetCore.ConsoleApp
 {
-    public class AppDbContent :DbContext
+    public class AppDbContext :DbContext
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -16,7 +16,7 @@ namespace traDotNetCore.ConsoleApp
                      
 
             if (!optionsBuilder.IsConfigured) {
-                string connectionString = "Data Source = .;Initial Catalog = DotNetTraningBatch5;User ID =sa; Password = sa@123sa@123;TrustServerCertificate  = True";
+                string connectionString = "Data Source = .;Initial Catalog = DotNetTraningBatch5;User ID =sa; Password = sasa@123;TrustServerCertificate  = True";
                 optionsBuilder.UseSqlServer(connectionString);
             
             }
@@ -29,6 +29,7 @@ namespace traDotNetCore.ConsoleApp
 
         public DbSet<BlogDataModel> Blogs { get; set; }
 
+         
 
     }
 }

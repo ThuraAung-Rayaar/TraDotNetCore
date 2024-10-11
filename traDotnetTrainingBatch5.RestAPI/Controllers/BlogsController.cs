@@ -16,7 +16,7 @@ namespace traDotnetTrainingBatch5.RestApi.Controllers
         [HttpPut]
         public IActionResult UpdateBlogs()
         {
-            return Ok();
+            return Ok(new {Message = "GEt Blogs"});
         }
 
         [HttpPatch]

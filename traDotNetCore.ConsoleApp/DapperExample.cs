@@ -12,7 +12,7 @@ namespace traDotNetCore.ConsoleApp
 {
     public class DapperExample
     {
-        private readonly string _connectionString = "Data Source = .;Initial Catalog = DotNetTraningBatch5;User ID =sa; Password = sa@123sa@123;";
+        private readonly string _connectionString = "Data Source = .;Initial Catalog = DotNetTraningBatch5;User ID =sa; Password = sasa@123;";
 
         public void Read()
         {
