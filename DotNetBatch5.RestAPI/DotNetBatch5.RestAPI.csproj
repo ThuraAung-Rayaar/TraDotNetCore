@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DotNetBatch5.Database\DotNetBatch5.Database.csproj" />
+    <ProjectReference Include="..\traDotNetCore.ConsoleApp\traDotNetCore.ConsoleApp.csproj" />
   </ItemGroup>
 
 </Project>
