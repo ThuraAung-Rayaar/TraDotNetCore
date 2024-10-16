@@ -37,6 +37,7 @@ public class BlogsEFCoreExample : ControllerBase
       
             AppDbContext db = new AppDbContext();
         var re = db.TblBlogs.Where(x => x.BlogId == id && x.DeleteFlag == false).FirstOrDefault();
+        if (re is null) return BadRequest("No ID Found");
         BlogViewModel blogItem = new BlogViewModel() { 
         Id = id,
         Author=re.BlogAuthor, Title=re.BlogTitle,Content=re.BlogContent
@@ -91,4 +92,38 @@ public class BlogsEFCoreExample : ControllerBase
 
         return Ok(blog);
     }
+
+    [HttpPatch("{id}")]
+    public IActionResult PatchBlog(int id, BlogViewModel blog) {
+        
+        
+        AppDbContext dbContext = new AppDbContext();
+        var item = dbContext.TblBlogs.AsNoTracking().Where(x=> x.BlogId == id).FirstOrDefault();
+        if (item is null) return NotFound("No ID Found");
+        if (!string.IsNullOrEmpty(blog.Title))
+        {
+           
+            item.BlogTitle = blog.Title;
+
+
+        }
+        if (!string.IsNullOrEmpty(blog.Author))
+        {
+           item.BlogAuthor= blog.Author;
+
+
+
+        }
+        if (!string.IsNullOrEmpty(blog.Content))
+        {
+           item.BlogContent= blog.Content;
+
+
+
+        }
+        dbContext.Entry(item).State = EntityState.Modified;
+        dbContext.SaveChanges();
+        return Ok("Succcessful Update");
+    }
+
 }

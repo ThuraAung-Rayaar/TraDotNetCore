@@ -5,6 +5,7 @@ using Microsoft.Data.SqlClient;
 using System.Data;
 using traDotNetCore.ConsoleApp.Models;
 using Dapper;
+using System.Reflection.Metadata;
 namespace DotNetBatch5.RestAPI.Controllers
 {
     [Route("api/[controller]")]
@@ -144,6 +145,53 @@ namespace DotNetBatch5.RestAPI.Controllers
             return (result > 0) ? Ok("Delete SuccessFul") : NotFound("Id not Found Error");
         }
         [HttpPatch("{id}")]
-        public IActionResult PatchBlog(int id, BlogViewModel model) { return Ok(); }
+        public IActionResult PatchBlog(int id, BlogViewModel model) {
+            string condition = "";
+            if (!string.IsNullOrEmpty(model.Title))
+            {
+                condition += " [BlogTitle] = @BlogTitle, ";
+
+
+
+            }
+            if (!string.IsNullOrEmpty(model.Author))
+            {
+                condition += " [BlogAuthor] = @BlogAuthor, ";
+
+
+
+            }
+            if (!string.IsNullOrEmpty(model.Content))
+            {
+                condition += " [BlogContent] = @BlogContent, ";
+
+
+
+            }
+            if (condition.Length == 0) return NotFound("Error Handing PArameter");
+
+            condition = condition.Substring(0, condition.Length - 2);
+            int result;
+            using (IDbConnection connection = new SqlConnection(_connectionString)) {
+
+                string query = $@"UPDATE [dbo].[Tbl_Blog]
+        SET {condition}
+        WHERE BlogId = @ID";
+                result = connection.Execute(query, new
+                {
+                    ID = id,
+                    BlogTitle = model.Title,
+                    BlogAuthor = model.Author,
+                    BlogContent = model.Content
+
+
+                });
+
+
+            }
+
+
+            return (result > 0) ? Ok("Update Successful") : NotFound("Id not Found Error");
+        }
     }
 }

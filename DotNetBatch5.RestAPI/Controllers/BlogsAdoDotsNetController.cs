@@ -135,56 +135,46 @@ namespace DotNetBatch5.RestAPI.Controllers
         [HttpPatch("{id}")]
         public IActionResult PatchBlogs(int id, BlogViewModel blog)
         {
-            
 
             SqlConnection connection = new SqlConnection(_connectionString);
-            string con = "";
-            if (!string.IsNullOrEmpty(blog.Title))
-            {
-                con += " [BlogTitle] = @BlogTitle, ";
+            //SqlCommand command = new SqlCommand();
+            string condition = "";
+            if(!string.IsNullOrEmpty(blog.Title)) {
+                condition += " [BlogTitle] = @BlogTitle, ";
               
+
+
             }
             if (!string.IsNullOrEmpty(blog.Author))
             {
-                con += " [BlogAuthor] = @BlogAuthor, ";
-               
+                condition += " [BlogAuthor] = @BlogAuthor, ";
+
+
+
             }
             if (!string.IsNullOrEmpty(blog.Content))
             {
-                con += " [BlogContent] = @BlogContent, ";
-               
+                condition += " [BlogContent] = @BlogContent, ";
+
+
+
             }
-            if (con.Length == 0) { return NotFound("Error Handling Query / Invalid parameter"); }
-            con = con.Substring(0, con.Length - 2);
-            string query = $@"Update [dbo].[Tbl_Blog] set {con} WHERE BlogId = @ID";
-            connection.Open();
+            if(condition.Length == 0) return NotFound("Error Handing PArameter");
+
+            condition = condition.Substring(0, condition.Length - 2);
+            string query = $@"UPDATE [dbo].[Tbl_Blog]
+        SET {condition}
+        WHERE BlogId = @ID";
             SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@ID", id);
-            if (!string.IsNullOrEmpty(blog.Title)) {
-               
-                command.Parameters.AddWithValue("@BlogTitle", blog.Title);
-                 }
-            if (!string.IsNullOrEmpty(blog.Author))
-            {
-             
-                command.Parameters.AddWithValue("@BlogAuthor", blog.Author);
-            }
-            if (!string.IsNullOrEmpty(blog.Content))
-            {
-               
-                command.Parameters.AddWithValue("@BlogContent", blog.Content);
-            }
-           
-            
-          
-            
-           
-           int re = command.ExecuteNonQuery();
+            if (!string.IsNullOrEmpty(blog.Title)) command.Parameters.AddWithValue("@BlogTitle", blog.Title);
+            if (!string.IsNullOrEmpty(blog.Author)) command.Parameters.AddWithValue("@BlogAuthor", blog.Author);
+            if (!string.IsNullOrEmpty(blog.Content)) command.Parameters.AddWithValue("@BlogContent", blog.Content);
+            connection.Open();
+            int result =command.ExecuteNonQuery();
             connection.Close();
 
-
-
-            return Ok(re>0?"Success update":"Fail");
+            return Ok(result > 0 ? "Success update" : "Fail");
         }
 
 
