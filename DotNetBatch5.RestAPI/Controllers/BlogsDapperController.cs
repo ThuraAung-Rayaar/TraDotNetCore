@@ -175,7 +175,7 @@ namespace DotNetBatch5.RestAPI.Controllers
             using (IDbConnection connection = new SqlConnection(_connectionString)) {
 
                 string query = $@"UPDATE [dbo].[Tbl_Blog]
-        SET {condition}
+        SET {condition} , [DeleteFlag] = 0
         WHERE BlogId = @ID";
                 result = connection.Execute(query, new
                 {
