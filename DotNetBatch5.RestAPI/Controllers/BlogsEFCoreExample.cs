@@ -55,7 +55,8 @@ public class BlogsEFCoreExample : ControllerBase
             BlogContent = blog.Content,
             BlogTitle = blog.Title,
             DeleteFlag = false
-        
+            
+
         };
         dbContext.Add(model);
        int re = dbContext.SaveChanges();
