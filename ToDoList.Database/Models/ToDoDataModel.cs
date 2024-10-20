@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ToDoList.Database.Models;
 
-public partial class ToDoList
+public partial class ToDoDataModel
 {
     public int TaskId { get; set; }
 
@@ -23,7 +23,7 @@ public partial class ToDoList
 
     public DateTime? CompletedDate { get; set; }
 
-    public virtual TaskCategory? Category { get; set; }
+    public virtual CategoryDataModel? Category { get; set; }
 
     public bool DeleteFlag { get; set; }
 }

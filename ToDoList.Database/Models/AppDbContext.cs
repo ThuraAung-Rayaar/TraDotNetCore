@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace ToDoList.Database.Models;
 
 public partial class AppDbContext : DbContext
@@ -15,9 +16,9 @@ public partial class AppDbContext : DbContext
     {
     }
 
-    public virtual DbSet<TaskCategory> TaskCategories { get; set; }
+    public virtual DbSet<CategoryDataModel> TaskCategories { get; set; }
 
-    public virtual DbSet<ToDoList> ToDoLists { get; set; }
+    public virtual DbSet<ToDoDataModel> ToDoLists { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -25,7 +26,7 @@ public partial class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<TaskCategory>(entity =>
+        modelBuilder.Entity<CategoryDataModel>(entity =>
         {
             entity.HasKey(e => e.CategoryId);
 
@@ -38,7 +39,7 @@ public partial class AppDbContext : DbContext
                 .HasDefaultValueSql("('Personal')");
         });
 
-        modelBuilder.Entity<ToDoList>(entity =>
+        modelBuilder.Entity<ToDoDataModel>(entity =>
         {
             entity.HasKey(e => e.TaskId).HasName("PK__ToDoList__7C6949D14A6BD100");
 
@@ -58,7 +59,7 @@ public partial class AppDbContext : DbContext
             entity.Property(e => e.TaskTitle)
                 .HasMaxLength(255)
                 .IsUnicode(false);
-            entity.Property(e=>e.DeleteFlag).HasColumnType("boolean");
+            entity.Property(e=>e.DeleteFlag).HasColumnType("bit");
             entity.HasOne(d => d.Category).WithMany(p => p.ToDoLists)
                 .HasForeignKey(d => d.CategoryId)
                 .HasConstraintName("FK__ToDoList__Catego__6477ECF3");

@@ -38,6 +38,7 @@ namespace ToDoListShell.ConsoleApp.Models
         public int TaskID { get; set; }
         public string TaskTitle { get; set; }
         public string TaskDescription { get; set; }
+        public string? CategoryName { get; set; }
         public int? CategoryID { get; set; }
         public byte PriorityLevel { get; set; }
         public string Status { get; set; }
