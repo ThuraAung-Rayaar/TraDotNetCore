@@ -18,9 +18,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetBatch5.RestAPI", "Dot
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoListShell.ConsoleApp", "ToDoListShell.ConsoleApp\ToDoListShell.ConsoleApp.csproj", "{DEA91A65-84A6-4FC5-AA24-F8E27BE7AC42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.Database", "ToDoList.Database\ToDoList.Database.csproj", "{4D1E1D15-CA27-4B41-9ADE-02B75B0F58C6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoList.Database", "ToDoList.Database\ToDoList.Database.csproj", "{4D1E1D15-CA27-4B41-9ADE-02B75B0F58C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDoList.RestAPI", "ToDoList.RestAPI\ToDoList.RestAPI.csproj", "{B9087E21-30C2-4052-9F14-A7F92BB47DD3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDoList.RestAPI", "ToDoList.RestAPI\ToDoList.RestAPI.csproj", "{B9087E21-30C2-4052-9F14-A7F92BB47DD3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDoList", "ToDoList", "{99F71510-9741-4478-A083-5219402D5195}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DEA91A65-84A6-4FC5-AA24-F8E27BE7AC42} = {99F71510-9741-4478-A083-5219402D5195}
+		{4D1E1D15-CA27-4B41-9ADE-02B75B0F58C6} = {99F71510-9741-4478-A083-5219402D5195}
+		{B9087E21-30C2-4052-9F14-A7F92BB47DD3} = {99F71510-9741-4478-A083-5219402D5195}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26DE019A-8604-40AA-8742-7355859C4CF8}

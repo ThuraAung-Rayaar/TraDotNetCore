@@ -124,7 +124,7 @@ namespace ToDoList.RestAPI.Controllers
 
             AppDbContext dbContext = new AppDbContext();
             // var item = dbContext.TaskCategories.Where(y => y.CategoryName == toDoItem.CategoryName).Select(y => y).FirstOrDefault();
-            ToDoDataModel dataitem = dbContext.ToDoLists.AsNoTracking().Where(x => x.TaskId == id & x.DeleteFlag == false).FirstOrDefault();
+            var dataitem = dbContext.ToDoLists.AsNoTracking().Where(x => x.TaskId == id && x.DeleteFlag == false).FirstOrDefault();
             if (dataitem is null) return NotFound("No Data Found");
             if (!string.IsNullOrEmpty(toDoItem.Title))
             {
@@ -138,7 +138,15 @@ namespace ToDoList.RestAPI.Controllers
 
             if (!string.IsNullOrEmpty(toDoItem.CategoryName))
             {
-                dataitem.CategoryId = (dbContext.TaskCategories.Where(y => y.CategoryName == toDoItem.CategoryName).Select(y => y).FirstOrDefault())?.CategoryId;
+                var category = dbContext.TaskCategories
+                .Where(y => y.CategoryName == toDoItem.CategoryName)
+                .Select(y => y)
+                .FirstOrDefault();
+
+                if (category != null)
+                {
+                    dataitem.CategoryId = category.CategoryId;
+                }
             }
 
             if (toDoItem.PriorityLevel != 0)
@@ -155,6 +163,7 @@ namespace ToDoList.RestAPI.Controllers
             {
                 dataitem.DueDate = toDoItem.DueDate;
             }
+            dbContext.Attach(dataitem);
             dbContext.Entry(dataitem).State = EntityState.Modified;
             dbContext.SaveChanges();
             return Ok();

@@ -23,7 +23,7 @@ public partial class ToDoDataModel
 
     public DateTime? CompletedDate { get; set; }
 
-    public virtual CategoryDataModel? Category { get; set; }
+   // public virtual CategoryDataModel? Category { get; set; }
 
     public bool DeleteFlag { get; set; }
 }

@@ -60,9 +60,9 @@ public partial class AppDbContext : DbContext
                 .HasMaxLength(255)
                 .IsUnicode(false);
             entity.Property(e=>e.DeleteFlag).HasColumnType("bit");
-            entity.HasOne(d => d.Category).WithMany(p => p.ToDoLists)
+           /* entity.HasOne(d => d.Category).WithMany(p => p.ToDoLists)
                 .HasForeignKey(d => d.CategoryId)
-                .HasConstraintName("FK__ToDoList__Catego__6477ECF3");
+                .HasConstraintName("FK__ToDoList__Catego__6477ECF3");*/
         });
 
         OnModelCreatingPartial(modelBuilder);
