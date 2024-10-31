@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDoList", "ToDoList", "{99
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TraDotNetCore.Shared", "TraDotNetCore.Shared\TraDotNetCore.Shared.csproj", "{852ACFE6-F8C3-48EA-B350-43B68C0D0C15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TraDotNet_Service.RestAPI", "TraDotNet_Service.RestAPI\TraDotNet_Service.RestAPI.csproj", "{EB93FAA7-F1A6-4BC1-BD74-BACB0658B639}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TraBlogDotNet_Service.RestAPI", "TraDotNet_Service.RestAPI\TraBlogDotNet_Service.RestAPI.csproj", "{EB93FAA7-F1A6-4BC1-BD74-BACB0658B639}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
