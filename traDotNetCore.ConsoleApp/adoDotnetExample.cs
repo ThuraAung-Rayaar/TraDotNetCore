@@ -175,7 +175,7 @@ namespace traDotNetCore.ConsoleApp
         public void Update() {
 
            // Console.Write("Select ID to Update :");
-            string id = ReadOnly();
+            string id = ReadOnly();// from above function to get one item
             string title = "", author = "", content = "";
            // Console.WriteLine("Connecting String: " + connectionString);
             SqlConnection connection = new SqlConnection(connectionString);
