@@ -75,7 +75,7 @@ namespace traDotNetCore.ConsoleApp
                 );
 
                 Console.WriteLine(result >= 1 ? "Insertion Succcssful" : "Fail Insertion");
-
+            
             
 
 
