@@ -1,0 +1,932 @@
+{
+  "Drug_Tbl": [
+    {
+      "Drug_id": 1,
+      "Brand_name": "Tylenol with Codeine",
+      "Generic_name": "Acetaminophen and Codeine",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Pain Relief"
+      },
+      "Dosage": "300 mg Acetaminophen / 30 mg Codeine",
+      "Side_Effect": "Drowsiness, constipation",
+      "Drug_interaction": "Alcohol, sedatives",
+      "Production_Date": "2023-01-15",
+      "Expire_Date": "2025-01-15"
+    },
+    {
+      "Drug_id": 2,
+      "Brand_name": "Proair",
+      "Generic_name": "Albuterol",
+      "Category": {
+        "Availability": "Prescription",
+        "Source": "Lab-made",
+        "Administration": "Inhalation",
+        "Therapeutic": "Asthma"
+      },
+      "Dosage": "90 mcg per puff",
+      "Side_Effect": "Nervousness, tremor",
+      "Drug_interaction": "Other bronchodilators",
+      "Production_Date": "2023-02-10",
+      "Expire_Date": "2025-02-10"
+    },
+    {
+      "Drug_id": 3,
+      "Brand_name": "Fosamax",
+      "Generic_name": "Alendronate",
+      "Category": {
+        "Availability": "Prescription",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Osteoporosis"
+      },
+      "Dosage": "70 mg weekly",
+      "Side_Effect": "Esophagitis, abdominal pain",
+      "Drug_interaction": "Antacids, calcium supplements",
+      "Production_Date": "2023-03-05",
+      "Expire_Date": "2025-03-05"
+    },
+    {
+      "Drug_id": 4,
+      "Brand_name": "Echinacea",
+      "Generic_name": "Echinacea",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Herbal",
+        "Administration": "Oral",
+        "Therapeutic": "Immune Support"
+      },
+      "Dosage": "400 mg daily",
+      "Side_Effect": "Nausea, stomach pain",
+      "Drug_interaction": "None known",
+      "Production_Date": "2023-04-20",
+      "Expire_Date": "2025-04-20"
+    },
+    {
+      "Drug_id": 5,
+      "Brand_name": "Ginseng",
+      "Generic_name": "Ginseng",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Herbal",
+        "Administration": "Oral",
+        "Therapeutic": "Energy Boost"
+      },
+      "Dosage": "500 mg daily",
+      "Side_Effect": "Headache, insomnia",
+      "Drug_interaction": "Blood thinners",
+      "Production_Date": "2023-05-15",
+      "Expire_Date": "2025-05-15"
+    },
+    {
+      "Drug_id": 6,
+      "Brand_name": "St. John's Wort",
+      "Generic_name": "Hypericum perforatum",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Herbal",
+        "Administration": "Oral",
+        "Therapeutic": "Depression"
+      },
+      "Dosage": "300 mg three times a day",
+      "Side_Effect": "Photosensitivity, dry mouth",
+      "Drug_interaction": "Antidepressants, birth control",
+      "Production_Date": "2023-06-10",
+      "Expire_Date": "2025-06-10"
+    },
+    {
+      "Drug_id": 7,
+      "Brand_name": "Lipitor",
+      "Generic_name": "Atorvastatin",
+      "Category": {
+        "Availability": "Prescription",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Cholesterol Lowering"
+      },
+      "Dosage": "10 mg daily",
+      "Side_Effect": "Muscle pain, digestive problems",
+      "Drug_interaction": "Grapefruit juice",
+      "Production_Date": "2023-07-01",
+      "Expire_Date": "2025-07-01"
+    },
+    {
+      "Drug_id": 8,
+      "Brand_name": "Aspirin",
+      "Generic_name": "Acetylsalicylic Acid",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Pain Relief, Anti-inflammatory"
+      },
+      "Dosage": "325 mg as needed",
+      "Side_Effect": "Stomach upset, bleeding",
+      "Drug_interaction": "Blood thinners, alcohol",
+      "Production_Date": "2023-08-10",
+      "Expire_Date": "2025-08-10"
+    },
+    {
+      "Drug_id": 9,
+      "Brand_name": "Lisinopril",
+      "Generic_name": "Lisinopril",
+      "Category": {
+        "Availability": "Prescription",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Blood Pressure Control"
+      },
+      "Dosage": "10 mg daily",
+      "Side_Effect": "Cough, dizziness",
+      "Drug_interaction": "Potassium supplements",
+      "Production_Date": "2023-09-15",
+      "Expire_Date": "2025-09-15"
+    },
+    {
+      "Drug_id": 10,
+      "Brand_name": "Metformin",
+      "Generic_name": "Metformin",
+      "Category": {
+        "Availability": "Prescription",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Diabetes Control"
+      },
+      "Dosage": "500 mg twice daily",
+      "Side_Effect": "Nausea, diarrhea",
+      "Drug_interaction": "Alcohol",
+      "Production_Date": "2023-10-05",
+      "Expire_Date": "2025-10-05"
+    },
+    {
+      "Drug_id": 11,
+      "Brand_name": "Paracetamol",
+      "Generic_name": "Acetaminophen",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Pain Relief, Fever Reducer"
+      },
+      "Dosage": "500 mg every 4-6 hours",
+      "Side_Effect": "Liver damage (high doses)",
+      "Drug_interaction": "Alcohol, other acetaminophen products",
+      "Production_Date": "2023-11-01",
+      "Expire_Date": "2025-11-01"
+    },
+    {
+      "Drug_id": 12,
+      "Brand_name": "Ibuprofen",
+      "Generic_name": "Ibuprofen",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Pain Relief, Anti-inflammatory"
+      },
+      "Dosage": "200 mg every 4-6 hours",
+      "Side_Effect": "Stomach upset, kidney issues",
+      "Drug_interaction": "Blood thinners, alcohol",
+      "Production_Date": "2023-11-05",
+      "Expire_Date": "2025-11-05"
+    },
+    {
+      "Drug_id": 13,
+      "Brand_name": "Benadryl",
+      "Generic_name": "Diphenhydramine",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Allergy Relief"
+      },
+      "Dosage": "25 mg every 4-6 hours",
+      "Side_Effect": "Drowsiness, dry mouth",
+      "Drug_interaction": "Sedatives, alcohol",
+      "Production_Date": "2023-12-10",
+      "Expire_Date": "2025-12-10"
+    },
+    {
+      "Drug_id": 14,
+      "Brand_name": "Tums",
+      "Generic_name": "Calcium Carbonate",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Antacid"
+      },
+      "Dosage": "500 mg as needed",
+      "Side_Effect": "Constipation, bloating",
+      "Drug_interaction": "Thyroid medications, certain antibiotics",
+      "Production_Date": "2023-10-20",
+      "Expire_Date": "2025-10-20"
+    },
+    {
+      "Drug_id": 15,
+      "Brand_name": "Claritin",
+      "Generic_name": "Loratadine",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Allergy Relief"
+      },
+      "Dosage": "10 mg daily",
+      "Side_Effect": "Headache, dry mouth",
+      "Drug_interaction": "None significant",
+      "Production_Date": "2023-12-15",
+      "Expire_Date": "2025-12-15"
+    },
+    {
+      "Drug_id": 16,
+      "Brand_name": "Sudafed",
+      "Generic_name": "Pseudoephedrine",
+      "Category": {
+        "Availability": "OTC (with restrictions)",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Nasal Decongestant"
+      },
+      "Dosage": "30 mg every 4-6 hours",
+      "Side_Effect": "Increased heart rate, insomnia",
+      "Drug_interaction": "Blood pressure medications",
+      "Production_Date": "2023-11-25",
+      "Expire_Date": "2025-11-25"
+    },
+    {
+      "Drug_id": 17,
+      "Brand_name": "Zyrtec",
+      "Generic_name": "Cetirizine",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Allergy Relief"
+      },
+      "Dosage": "10 mg daily",
+      "Side_Effect": "Drowsiness (less common), dry mouth",
+      "Drug_interaction": "Alcohol, sedatives",
+      "Production_Date": "2023-09-30",
+      "Expire_Date": "2025-09-30"
+    },
+    {
+      "Drug_id": 18,
+      "Brand_name": "Naproxen",
+      "Generic_name": "Naproxen",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Pain Relief, Anti-inflammatory"
+      },
+      "Dosage": "220 mg every 8-12 hours",
+      "Side_Effect": "Stomach upset, kidney issues",
+      "Drug_interaction": "Blood thinners, other NSAIDs",
+      "Production_Date": "2023-07-15",
+      "Expire_Date": "2025-07-15"
+    },
+    {
+      "Drug_id": 19,
+      "Brand_name": "Pepto-Bismol",
+      "Generic_name": "Bismuth Subsalicylate",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Digestive Relief"
+      },
+      "Dosage": "30 ml every 30 minutes as needed",
+      "Side_Effect": "Black tongue or stool, constipation",
+      "Drug_interaction": "Anticoagulants, diabetes medications",
+      "Production_Date": "2023-08-05",
+      "Expire_Date": "2025-08-05"
+    },
+    {
+      "Drug_id": 20,
+      "Brand_name": "Zantac",
+      "Generic_name": "Ranitidine",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Lab-made",
+        "Administration": "Oral",
+        "Therapeutic": "Acid Reflux"
+      },
+      "Dosage": "150 mg twice daily",
+      "Side_Effect": "Headache, nausea",
+      "Drug_interaction": "Antifungals, warfarin",
+      "Production_Date": "2023-10-15",
+      "Expire_Date": "2025-10-15"
+    },
+    {
+      "Drug_id": 21,
+      "Brand_name": "Morphine",
+      "Generic_name": "Morphine",
+      "Category": {
+        "Availability": "Prescription",
+        "Source": "Plant-derived (Opium poppy)",
+        "Administration": "Injection, Oral",
+        "Therapeutic": "Pain Relief"
+      },
+      "Dosage": "10-30 mg every 4 hours as needed",
+      "Side_Effect": "Constipation, drowsiness",
+      "Drug_interaction": "Alcohol, sedatives",
+      "Production_Date": "2023-11-10",
+      "Expire_Date": "2025-11-10"
+    },
+    {
+      "Drug_id": 22,
+      "Brand_name": "Insulin",
+      "Generic_name": "Insulin",
+      "Category": {
+        "Availability": "Prescription",
+        "Source": "Animal-derived (Porcine or Bovine) or Lab-made (Recombinant DNA)",
+        "Administration": "Injection",
+        "Therapeutic": "Diabetes Control"
+      },
+      "Dosage": "Varies depending on blood glucose levels",
+      "Side_Effect": "Low blood sugar, weight gain",
+      "Drug_interaction": "Beta-blockers, alcohol",
+      "Production_Date": "2023-09-15",
+      "Expire_Date": "2025-09-15"
+    },
+    {
+      "Drug_id": 23,
+      "Brand_name": "Cortisone",
+      "Generic_name": "Cortisone",
+      "Category": {
+        "Availability": "Prescription",
+        "Source": "Animal-derived (Adrenal glands) or Lab-made",
+        "Administration": "Injection, Topical",
+        "Therapeutic": "Anti-inflammatory"
+      },
+      "Dosage": "20-300 mg via injection, as prescribed",
+      "Side_Effect": "Increased blood sugar, skin thinning",
+      "Drug_interaction": "NSAIDs, insulin",
+      "Production_Date": "2023-08-20",
+      "Expire_Date": "2025-08-20"
+    },
+    {
+      "Drug_id": 24,
+      "Brand_name": "Heparin",
+      "Generic_name": "Heparin",
+      "Category": {
+        "Availability": "Prescription",
+        "Source": "Animal-derived (Porcine intestines)",
+        "Administration": "Injection",
+        "Therapeutic": "Anticoagulant"
+      },
+      "Dosage": "5,000 units every 8-12 hours",
+      "Side_Effect": "Bleeding, easy bruising",
+      "Drug_interaction": "Aspirin, NSAIDs",
+      "Production_Date": "2023-07-10",
+      "Expire_Date": "2025-07-10"
+    },
+    {
+      "Drug_id": 25,
+      "Brand_name": "Ginseng",
+      "Generic_name": "Ginseng",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Herbal",
+        "Administration": "Oral",
+        "Therapeutic": "Energy Boost, Immunity Support"
+      },
+      "Dosage": "500 mg daily",
+      "Side_Effect": "Headache, insomnia",
+      "Drug_interaction": "Blood thinners",
+      "Production_Date": "2023-05-15",
+      "Expire_Date": "2025-05-15"
+    },
+    {
+      "Drug_id": 26,
+      "Brand_name": "St. John's Wort",
+      "Generic_name": "Hypericum perforatum",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Herbal",
+        "Administration": "Oral",
+        "Therapeutic": "Depression, Anxiety"
+      },
+      "Dosage": "300 mg three times daily",
+      "Side_Effect": "Photosensitivity, dry mouth",
+      "Drug_interaction": "Antidepressants, birth control pills",
+      "Production_Date": "2023-06-10",
+      "Expire_Date": "2025-06-10"
+    },
+    {
+      "Drug_id": 27,
+      "Brand_name": "Echinacea",
+      "Generic_name": "Echinacea",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Herbal",
+        "Administration": "Oral",
+        "Therapeutic": "Immune Support"
+      },
+      "Dosage": "400 mg daily",
+      "Side_Effect": "Nausea, stomach pain",
+      "Drug_interaction": "None known",
+      "Production_Date": "2023-04-20",
+      "Expire_Date": "2025-04-20"
+    },
+    {
+      "Drug_id": 28,
+      "Brand_name": "Fish Oil",
+      "Generic_name": "Omega-3 Fatty Acids",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Animal-derived (Fish)",
+        "Administration": "Oral",
+        "Therapeutic": "Heart Health"
+      },
+      "Dosage": "1,000 mg daily",
+      "Side_Effect": "Fishy aftertaste, indigestion",
+      "Drug_interaction": "Blood thinners",
+      "Production_Date": "2023-02-20",
+      "Expire_Date": "2025-02-20"
+    },
+    {
+      "Drug_id": 29,
+      "Brand_name": "Glucosamine",
+      "Generic_name": "Glucosamine Sulfate",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Animal-derived (Shellfish)",
+        "Administration": "Oral",
+        "Therapeutic": "Joint Health"
+      },
+      "Dosage": "1,500 mg daily",
+      "Side_Effect": "Nausea, indigestion",
+      "Drug_interaction": "Blood thinners",
+      "Production_Date": "2023-03-10",
+      "Expire_Date": "2025-03-10"
+    },
+    {
+      "Drug_id": 31,
+      "Brand_name": "Saw Palmetto",
+      "Generic_name": "Serenoa repens",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Herbal",
+        "Administration": "Oral",
+        "Therapeutic": "Prostate Health"
+      },
+      "Dosage": "320 mg daily",
+      "Side_Effect": "Stomach upset, headache",
+      "Drug_interaction": "Blood thinners, hormone therapy",
+      "Production_Date": "2023-07-15",
+      "Expire_Date": "2025-07-15"
+    },
+    {
+      "Drug_id": 32,
+      "Brand_name": "Cod Liver Oil",
+      "Generic_name": "Omega-3 Fatty Acids and Vitamins A & D",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Animal-derived (Codfish)",
+        "Administration": "Oral",
+        "Therapeutic": "Heart Health, Bone Health"
+      },
+      "Dosage": "1-2 teaspoons daily",
+      "Side_Effect": "Fishy aftertaste, upset stomach",
+      "Drug_interaction": "Blood thinners, vitamin supplements",
+      "Production_Date": "2023-09-25",
+      "Expire_Date": "2025-09-25"
+    },
+    {
+      "Drug_id": 33,
+      "Brand_name": "Bee Propolis",
+      "Generic_name": "Propolis",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Animal-derived (Bees)",
+        "Administration": "Oral",
+        "Therapeutic": "Immune Support, Antioxidant"
+      },
+      "Dosage": "500 mg daily",
+      "Side_Effect": "Allergic reactions (if allergic to bees)",
+      "Drug_interaction": "None known",
+      "Production_Date": "2023-04-01",
+      "Expire_Date": "2025-04-01"
+    },
+    {
+      "Drug_id": 34,
+      "Brand_name": "Chondroitin",
+      "Generic_name": "Chondroitin Sulfate",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Animal-derived (Cartilage from cows, sharks)",
+        "Administration": "Oral",
+        "Therapeutic": "Joint Health"
+      },
+      "Dosage": "1,200 mg daily",
+      "Side_Effect": "Stomach upset, allergic reactions",
+      "Drug_interaction": "Blood thinners",
+      "Production_Date": "2023-03-25",
+      "Expire_Date": "2025-03-25"
+    },
+    {
+      "Drug_id": 35,
+      "Brand_name": "Melatonin",
+      "Generic_name": "Melatonin",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Herbal",
+        "Administration": "Oral",
+        "Therapeutic": "Sleep Aid"
+      },
+      "Dosage": "1-10 mg before bedtime",
+      "Side_Effect": "Drowsiness, headache",
+      "Drug_interaction": "Sedatives, blood pressure medications",
+      "Production_Date": "2023-06-10",
+      "Expire_Date": "2025-06-10"
+    },
+    {
+      "Drug_id": 36,
+      "Brand_name": "Ashwagandha",
+      "Generic_name": "Withania somnifera",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Herbal",
+        "Administration": "Oral",
+        "Therapeutic": "Stress Relief, Energy Boost"
+      },
+      "Dosage": "300-500 mg daily",
+      "Side_Effect": "Stomach upset, drowsiness",
+      "Drug_interaction": "Sedatives, blood pressure medications",
+      "Production_Date": "2023-09-01",
+      "Expire_Date": "2025-09-01"
+    },
+    {
+      "Drug_id": 37,
+      "Brand_name": "Thyroid",
+      "Generic_name": "Desiccated Thyroid",
+      "Category": {
+        "Availability": "Prescription",
+        "Source": "Animal-derived (Porcine thyroid gland)",
+        "Administration": "Oral",
+        "Therapeutic": "Hypothyroidism"
+      },
+      "Dosage": "30-120 mg daily",
+      "Side_Effect": "Palpitations, insomnia",
+      "Drug_interaction": "Blood thinners, diabetes medications",
+      "Production_Date": "2023-02-05",
+      "Expire_Date": "2025-02-05"
+    },
+    {
+      "Drug_id": 38,
+      "Brand_name": "Royal Jelly",
+      "Generic_name": "Royal Jelly",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Animal-derived (Bees)",
+        "Administration": "Oral",
+        "Therapeutic": "Energy Boost, Immune Support"
+      },
+      "Dosage": "500 mg daily",
+      "Side_Effect": "Allergic reactions, stomach upset",
+      "Drug_interaction": "None known",
+      "Production_Date": "2023-05-10",
+      "Expire_Date": "2025-05-10"
+    },
+    {
+      "Drug_id": 39,
+      "Brand_name": "Valerian Root",
+      "Generic_name": "Valeriana officinalis",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Herbal",
+        "Administration": "Oral",
+        "Therapeutic": "Sleep Aid, Anxiety Relief"
+      },
+      "Dosage": "300-600 mg before bedtime",
+      "Side_Effect": "Headache, drowsiness",
+      "Drug_interaction": "Sedatives, alcohol",
+      "Production_Date": "2023-08-15",
+      "Expire_Date": "2025-08-15"
+    },
+    {
+      "Drug_id": 40,
+      "Brand_name": "Collagen",
+      "Generic_name": "Collagen Peptides",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Animal-derived (Bovine or Marine)",
+        "Administration": "Oral",
+        "Therapeutic": "Skin Health, Joint Health"
+      },
+      "Dosage": "10-20 g daily",
+      "Side_Effect": "Upset stomach, allergic reactions",
+      "Drug_interaction": "None known",
+      "Production_Date": "2023-11-05",
+      "Expire_Date": "2025-11-05"
+    },
+    {
+      "Drug_id": 41,
+      "Brand_name": "Turmeric",
+      "Generic_name": "Curcuma longa",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Anti-inflammatory, Antioxidant"
+      },
+      "Dosage": "500 mg twice daily",
+      "Side_Effect": "Stomach upset, nausea",
+      "Drug_interaction": "Blood thinners, diabetes medications",
+      "Production_Date": "2023-01-10",
+      "Expire_Date": "2025-01-10"
+    },
+    {
+      "Drug_id": 42,
+      "Brand_name": "Garlic",
+      "Generic_name": "Allium sativum",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Heart Health, Immune Support"
+      },
+      "Dosage": "600-1,200 mg daily",
+      "Side_Effect": "Bad breath, stomach upset",
+      "Drug_interaction": "Blood thinners, NSAIDs",
+      "Production_Date": "2023-02-05",
+      "Expire_Date": "2025-02-05"
+    },
+    {
+      "Drug_id": 43,
+      "Brand_name": "Ginkgo Biloba",
+      "Generic_name": "Ginkgo Biloba",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Memory Enhancement, Circulation"
+      },
+      "Dosage": "120-240 mg daily",
+      "Side_Effect": "Headache, dizziness",
+      "Drug_interaction": "Blood thinners, anticonvulsants",
+      "Production_Date": "2023-03-15",
+      "Expire_Date": "2025-03-15"
+    },
+    {
+      "Drug_id": 46,
+      "Brand_name": "Aloe Vera",
+      "Generic_name": "Aloe Barbadensis",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Topical, Oral",
+        "Therapeutic": "Skin Health, Digestive Aid"
+      },
+      "Dosage": "Apply topically or 50 ml juice daily",
+      "Side_Effect": "Diarrhea (oral use), skin irritation",
+      "Drug_interaction": "Laxatives, diuretics",
+      "Production_Date": "2023-06-20",
+      "Expire_Date": "2025-06-20"
+    },
+    {
+      "Drug_id": 47,
+      "Brand_name": "Milk Thistle",
+      "Generic_name": "Silybum marianum",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Liver Health"
+      },
+      "Dosage": "200-400 mg daily",
+      "Side_Effect": "Stomach upset, rash",
+      "Drug_interaction": "Cholesterol-lowering medications, antipsychotics",
+      "Production_Date": "2023-07-05",
+      "Expire_Date": "2025-07-05"
+    },
+    {
+      "Drug_id": 48,
+      "Brand_name": "Elderberry",
+      "Generic_name": "Sambucus nigra",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Immune Support"
+      },
+      "Dosage": "500 mg daily",
+      "Side_Effect": "Nausea, diarrhea",
+      "Drug_interaction": "Immunosuppressants",
+      "Production_Date": "2023-08-10",
+      "Expire_Date": "2025-08-10"
+    },
+    {
+      "Drug_id": 49,
+      "Brand_name": "Cranberry Extract",
+      "Generic_name": "Vaccinium macrocarpon",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Urinary Tract Health"
+      },
+      "Dosage": "500 mg twice daily",
+      "Side_Effect": "Stomach upset, diarrhea",
+      "Drug_interaction": "Blood thinners",
+      "Production_Date": "2023-09-01",
+      "Expire_Date": "2025-09-01"
+    },
+    {
+      "Drug_id": 50,
+      "Brand_name": "Flaxseed Oil",
+      "Generic_name": "Linum usitatissimum",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Heart Health, Skin Health"
+      },
+      "Dosage": "1,000 mg daily",
+      "Side_Effect": "Stomach upset, bloating",
+      "Drug_interaction": "Blood thinners",
+      "Production_Date": "2023-10-10",
+      "Expire_Date": "2025-10-10"
+    },
+    {
+      "Drug_id": 51,
+      "Brand_name": "Black Cohosh",
+      "Generic_name": "Actaea racemosa",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Menopausal Symptoms"
+      },
+      "Dosage": "20-40 mg twice daily",
+      "Side_Effect": "Stomach upset, headache",
+      "Drug_interaction": "Hormonal therapies, liver medications",
+      "Production_Date": "2023-01-25",
+      "Expire_Date": "2025-01-25"
+    },
+    {
+      "Drug_id": 52,
+      "Brand_name": "Saw Palmetto",
+      "Generic_name": "Serenoa repens",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Prostate Health"
+      },
+      "Dosage": "320 mg daily",
+      "Side_Effect": "Stomach upset, headache",
+      "Drug_interaction": "Blood thinners, hormonal therapies",
+      "Production_Date": "2023-02-15",
+      "Expire_Date": "2025-02-15"
+    },
+    {
+      "Drug_id": 53,
+      "Brand_name": "Maca Root",
+      "Generic_name": "Lepidium meyenii",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Energy Boost, Libido Enhancement"
+      },
+      "Dosage": "1,500-3,000 mg daily",
+      "Side_Effect": "Upset stomach, insomnia",
+      "Drug_interaction": "Hormonal treatments",
+      "Production_Date": "2023-03-05",
+      "Expire_Date": "2025-03-05"
+    },
+    {
+      "Drug_id": 54,
+      "Brand_name": "Chlorella",
+      "Generic_name": "Chlorella vulgaris",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived (Algae)",
+        "Administration": "Oral",
+        "Therapeutic": "Detoxification, Immune Support"
+      },
+      "Dosage": "2-3 g daily",
+      "Side_Effect": "Stomach cramps, diarrhea",
+      "Drug_interaction": "Immunosuppressants",
+      "Production_Date": "2023-04-10",
+      "Expire_Date": "2025-04-10"
+    },
+    {
+      "Drug_id": 55,
+      "Brand_name": "Spirulina",
+      "Generic_name": "Arthrospira platensis",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived (Algae)",
+        "Administration": "Oral",
+        "Therapeutic": "Antioxidant, Immune Support"
+      },
+      "Dosage": "1-3 g daily",
+      "Side_Effect": "Stomach upset, allergic reactions",
+      "Drug_interaction": "Immunosuppressants",
+      "Production_Date": "2023-05-15",
+      "Expire_Date": "2025-05-15"
+    },
+    {
+      "Drug_id": 56,
+      "Brand_name": "Red Clover",
+      "Generic_name": "Trifolium pratense",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Menopausal Symptoms, Heart Health"
+      },
+      "Dosage": "40-80 mg daily",
+      "Side_Effect": "Rash, nausea",
+      "Drug_interaction": "Blood thinners, hormonal therapies",
+      "Production_Date": "2023-06-20",
+      "Expire_Date": "2025-06-20"
+    },
+    {
+      "Drug_id": 57,
+      "Brand_name": "Licorice Root",
+      "Generic_name": "Glycyrrhiza glabra",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Digestive Relief, Sore Throat"
+      },
+      "Dosage": "1-5 g daily",
+      "Side_Effect": "High blood pressure, low potassium",
+      "Drug_interaction": "Blood pressure medications, diuretics",
+      "Production_Date": "2023-07-05",
+      "Expire_Date": "2025-07-05"
+    },
+    {
+      "Drug_id": 58,
+      "Brand_name": "Feverfew",
+      "Generic_name": "Tanacetum parthenium",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Migraine Prevention"
+      },
+      "Dosage": "50-100 mg daily",
+      "Side_Effect": "Stomach upset, rash",
+      "Drug_interaction": "Blood thinners, NSAIDs",
+      "Production_Date": "2023-08-10",
+      "Expire_Date": "2025-08-10"
+    },
+    {
+      "Drug_id": 59,
+      "Brand_name": "Rhodiola",
+      "Generic_name": "Rhodiola rosea",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Stress Relief, Energy Boost"
+      },
+      "Dosage": "200-600 mg daily",
+      "Side_Effect": "Dizziness, dry mouth",
+      "Drug_interaction": "Antidepressants, sedatives",
+      "Production_Date": "2023-09-01",
+      "Expire_Date": "2025-09-01"
+    },
+    {
+      "Drug_id": 60,
+      "Brand_name": "Cat's Claw",
+      "Generic_name": "Uncaria tomentosa",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Immune Support, Inflammation"
+      },
+      "Dosage": "300-500 mg daily",
+      "Side_Effect": "Dizziness, nausea",
+      "Drug_interaction": "Blood thinners, blood pressure medications",
+      "Production_Date": "2023-10-15",
+      "Expire_Date": "2025-10-15"
+    },
+    {
+      "Drug_id": 61,
+      "Brand_name": "Horsetail",
+      "Generic_name": "Equisetum arvense",
+      "Category": {
+        "Availability": "OTC",
+        "Source": "Plant-derived",
+        "Administration": "Oral",
+        "Therapeutic": "Bone Health, Skin Health"
+      },
+      "Dosage": "300 mg 2-3 times daily",
+      "Side_Effect": "Digestive issues, dehydration",
+      "Drug_interaction": "Diuretics, potassium supplements",
+      "Production_Date": "2023-04-20",
+      "Expire_Date": "2025-04-20"
+    }
+  ]
+}
