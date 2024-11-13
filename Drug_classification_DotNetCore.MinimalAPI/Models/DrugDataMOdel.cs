@@ -2,9 +2,13 @@
 {
     public class DrugDataModel
     {
+
         public class Drug_Sample
         {
-            public required Drug_Idendity[] Drug_Tbl { get; set; }
+            public required List<Drug_Idendity> Drug_Tbl { get; set; }
+
+
+           
         }
 
         public class Drug_Idendity

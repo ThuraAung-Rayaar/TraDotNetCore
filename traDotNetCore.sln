@@ -30,7 +30,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TraBlogDotNet_Service.RestA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetTraining.MinimalAPI", "DotNetTraining.MinimalAPI\DotNetTraining.MinimalAPI.csproj", "{DB373AA3-902E-4A64-B758-F2797A6DA92C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Drug_classification_DotNetCore.MinimalAPI", "Drug_classification_DotNetCore.MinimalAPI\Drug_classification_DotNetCore.MinimalAPI.csproj", "{5CB2F69E-5B8B-411B-9C1C-47FB8DC0F5D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Drug_classification_DotNetCore.MinimalAPI", "Drug_classification_DotNetCore.MinimalAPI\Drug_classification_DotNetCore.MinimalAPI.csproj", "{5CB2F69E-5B8B-411B-9C1C-47FB8DC0F5D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "K-Pay", "K-Pay", "{AE3C28F4-3A82-4A0E-AD47-EF9A2A1AA55C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KBZPayDotNetCore.ConsoleApp", "KBZPayDotNetCore.ConsoleApp\KBZPayDotNetCore.ConsoleApp.csproj", "{D2A74D13-7AFB-41FB-9D53-2B9959744927}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetCoreTraining.Domain", "DotNetCoreTraining.Domain\DotNetCoreTraining.Domain.csproj", "{08BEB1BC-0CAD-41CA-94DE-FC6CC0A79A6C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Drugs", "Drugs", "{3239D18A-70BB-4B2D-A125-0DE34C9A55D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +90,14 @@ Global
 		{5CB2F69E-5B8B-411B-9C1C-47FB8DC0F5D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CB2F69E-5B8B-411B-9C1C-47FB8DC0F5D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CB2F69E-5B8B-411B-9C1C-47FB8DC0F5D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2A74D13-7AFB-41FB-9D53-2B9959744927}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2A74D13-7AFB-41FB-9D53-2B9959744927}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2A74D13-7AFB-41FB-9D53-2B9959744927}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2A74D13-7AFB-41FB-9D53-2B9959744927}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08BEB1BC-0CAD-41CA-94DE-FC6CC0A79A6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08BEB1BC-0CAD-41CA-94DE-FC6CC0A79A6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08BEB1BC-0CAD-41CA-94DE-FC6CC0A79A6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08BEB1BC-0CAD-41CA-94DE-FC6CC0A79A6C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +106,8 @@ Global
 		{DEA91A65-84A6-4FC5-AA24-F8E27BE7AC42} = {99F71510-9741-4478-A083-5219402D5195}
 		{4D1E1D15-CA27-4B41-9ADE-02B75B0F58C6} = {99F71510-9741-4478-A083-5219402D5195}
 		{B9087E21-30C2-4052-9F14-A7F92BB47DD3} = {99F71510-9741-4478-A083-5219402D5195}
+		{5CB2F69E-5B8B-411B-9C1C-47FB8DC0F5D8} = {3239D18A-70BB-4B2D-A125-0DE34C9A55D0}
+		{D2A74D13-7AFB-41FB-9D53-2B9959744927} = {AE3C28F4-3A82-4A0E-AD47-EF9A2A1AA55C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26DE019A-8604-40AA-8742-7355859C4CF8}

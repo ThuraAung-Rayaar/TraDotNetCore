@@ -177,22 +177,6 @@
       "Expire_Date": "2025-11-01"
     },
     {
-      "Drug_id": 12,
-      "Brand_name": "Ibuprofen",
-      "Generic_name": "Ibuprofen",
-      "Category": {
-        "Availability": "OTC",
-        "Source": "Lab-made",
-        "Administration": "Oral",
-        "Therapeutic": "Pain Relief, Anti-inflammatory"
-      },
-      "Dosage": "200 mg every 4-6 hours",
-      "Side_Effect": "Stomach upset, kidney issues",
-      "Drug_interaction": "Blood thinners, alcohol",
-      "Production_Date": "2023-11-05",
-      "Expire_Date": "2025-11-05"
-    },
-    {
       "Drug_id": 13,
       "Brand_name": "Benadryl",
       "Generic_name": "Diphenhydramine",

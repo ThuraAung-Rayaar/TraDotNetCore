@@ -25,7 +25,8 @@ namespace TraDotNet_Service.RestAPI.Controllers
 
 
         [HttpGet]
-        public IActionResult Get() { 
+        public IActionResult Get()
+        {
             List<BlogViewModel> list = new List<BlogViewModel>();
             string query = @"SELECT [BlogId]
             ,[BlogTitle]
@@ -33,24 +34,26 @@ namespace TraDotNet_Service.RestAPI.Controllers
             ,[BlogContent]
             ,[DeleteFlag]
             FROM [dbo].[Tbl_Blog] where DeleteFlag = 0 ";
-          var temList = _DapperService.Query<DapperDataModel>(query);
-            foreach (var item in temList) {
+            var temList = _DapperService.Query<DapperDataModel>(query);
+            foreach (var item in temList)
+            {
 
                 list.Add(
-                    new BlogViewModel { 
-                    
-                    Id = item.BlogId,
-                    Author = item.BlogAuthor,
-                    Content = item.BlogContent,
-                    Title = item.BlogTitle
-                    
-                    
+                    new BlogViewModel
+                    {
+
+                        Id = item.BlogId,
+                        Author = item.BlogAuthor,
+                        Content = item.BlogContent,
+                        Title = item.BlogTitle
+
+
                     });
             }
 
 
-        
-        return Ok(list);
+
+            return Ok(list);
         }
 
 
@@ -61,23 +64,23 @@ namespace TraDotNet_Service.RestAPI.Controllers
         {
             //BlogViewModel item = new BlogViewModel();
 
-           
-                string query = $@"select * from [dbo].[Tbl_Blog] where BlogId = @ID";
+
+            string query = $@"select * from [dbo].[Tbl_Blog] where BlogId = @ID";
             var item = _DapperService.QueryFirstOrDefault<DapperDataModel>(query, new { ID = id });
 
-                if (item is null) return NotFound("No data Found");
+            if (item is null) return NotFound("No data Found");
 
-                return Ok(new BlogViewModel
-                {
-                    Id = id,
-                    Title = item.BlogTitle,
-                    Author = item.BlogAuthor,
-                    Content = item.BlogContent,
+            return Ok(new BlogViewModel
+            {
+                Id = id,
+                Title = item.BlogTitle,
+                Author = item.BlogAuthor,
+                Content = item.BlogContent,
 
-                });
+            });
 
-            
-           
+
+
 
 
         }
@@ -87,9 +90,9 @@ namespace TraDotNet_Service.RestAPI.Controllers
         public IActionResult CreateBlog(BlogViewModel model)
         {
             //int result;
-           
 
-                string query = $@"insert into Tbl_Blog values (@BlogTitle,@BlogAuthor,@BlogContent,0)";
+
+            string query = $@"insert into Tbl_Blog values (@BlogTitle,@BlogAuthor,@BlogContent,0)";
             int result = _DapperService.Excute<DapperDataModel>(query,
                new
                {
@@ -117,26 +120,26 @@ namespace TraDotNet_Service.RestAPI.Controllers
         public IActionResult UpdateBlog(int id, BlogViewModel model)
         {
             int result;
-           
 
-                string query = $@"UPDATE [dbo].[Tbl_Blog]
+
+            string query = $@"UPDATE [dbo].[Tbl_Blog]
                 SET [BlogTitle] = @BlogTitle
                 ,[BlogAuthor] = @BlogAuthor
                 ,[BlogContent] =@BlogContent
                 
                  WHERE BlogId = @BlogId";
 
-                result = _DapperService.Excute<DapperDataModel>(query,
-               new
-               {
-                   BlogId = model.Id,
-                   BlogTitle = model.Title,
-                   BlogAuthor = model.Author,
-                   BlogContent = model.Content
+            result = _DapperService.Excute<DapperDataModel>(query,
+           new
+           {
+               BlogId = model.Id,
+               BlogTitle = model.Title,
+               BlogAuthor = model.Author,
+               BlogContent = model.Content
 
-               }
+           }
 
-                );
+            );
 
             // if (result<1)  return NotFound();
 
@@ -153,15 +156,15 @@ namespace TraDotNet_Service.RestAPI.Controllers
         public IActionResult DeleteBlog(int id)
         {
             int result;
-           
 
-                string query = $@"UPDATE [dbo].[Tbl_Blog]
+
+            string query = $@"UPDATE [dbo].[Tbl_Blog]
                 SET 
                 [DeleteFlag] = 1
                  WHERE BlogId = @BlogId and DeleteFlag = 0";
             result = _DapperService.Excute<DapperDataModel>(query, new { BlogId = id });
 
-            
+
 
             return (result > 0) ? Ok("Delete SuccessFul") : NotFound("Id not Found Error");
         }
@@ -195,22 +198,22 @@ namespace TraDotNet_Service.RestAPI.Controllers
 
             condition = condition.Substring(0, condition.Length - 2);
             int result;
-            
-                string query = $@"UPDATE [dbo].[Tbl_Blog]
+
+            string query = $@"UPDATE [dbo].[Tbl_Blog]
         SET {condition} , [DeleteFlag] = 0
         WHERE BlogId = @ID";
-                result = _DapperService.Excute<DapperDataModel>(query, new
-                {
-                    ID = id,
-                    BlogTitle = model.Title,
-                    BlogAuthor = model.Author,
-                    BlogContent = model.Content
+            result = _DapperService.Excute<DapperDataModel>(query, new
+            {
+                ID = id,
+                BlogTitle = model.Title,
+                BlogAuthor = model.Author,
+                BlogContent = model.Content
 
 
-                });
+            });
 
 
-            
+
 
 
             return (result > 0) ? Ok("Update Successful") : NotFound("Id not Found Error");

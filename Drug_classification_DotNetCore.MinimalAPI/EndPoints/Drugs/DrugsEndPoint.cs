@@ -50,8 +50,8 @@ public static class DrugsEndPoint
             var DrugArray = jsonDrug.TOClass<Drug_Sample>();
             var DrugList = DrugArray.Drug_Tbl.ToList();
             DrugList.Add(sample);
-            DrugArray.Drug_Tbl = DrugList.ToArray();
-
+            // DrugArray.Drug_Tbl = DrugList.ToArray();
+            DrugArray.Drug_Tbl = DrugList;
             File.WriteAllText(Filepath, DrugArray.ToJson());
 
 
@@ -86,8 +86,8 @@ public static class DrugsEndPoint
 
             var jsonDrug = File.ReadAllText(Filepath);
 
-            var DrugArray = jsonDrug.TOClass<Drug_Sample>();
-            var drugList = DrugArray.Drug_Tbl.ToList(); 
+            var DrugSAmple = jsonDrug.TOClass<Drug_Sample>();
+            var drugList = DrugSAmple.Drug_Tbl; 
 
             var drugToDelete = drugList.FirstOrDefault(d => d.Drug_id == id);
             if (drugToDelete == null)
@@ -96,10 +96,10 @@ public static class DrugsEndPoint
                 return Results.NotFound("Drug not found");
             }
             drugList.Remove(drugToDelete);
+            DrugSAmple.Drug_Tbl = drugList;
+            //DrugArray.Drug_Tbl = drugList.ToArray();
 
-            DrugArray.Drug_Tbl = drugList.ToArray();
-
-            File.WriteAllText(Filepath, DrugArray.ToJson());
+            File.WriteAllText(Filepath, DrugSAmple.ToJson());
             return Results.Ok("Successful Delete");
         }).WithName("Delete Drug").WithOpenApi();
     }
