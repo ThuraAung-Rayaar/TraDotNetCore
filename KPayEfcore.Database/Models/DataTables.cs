@@ -1,140 +1,85 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
-namespace KPayEfcore.Database.Models
-{
-    [Table("Users")]  // Maps the class to the Users table
-public partial class User
-{
-    [Column("userId")]  // Maps UserId property to userId column
-    public int UserId { get; set; }
+namespace KPayEfcore.Database.Models;
 
-    [Column("phoneNumber")]  // Maps PhoneNumber property to phoneNumber column
-    public string PhoneNumber { get; set; } = null!;
+    [Table("Users")]
+    public partial class User_Tbl
+    {
+        [Key]
+        public int UserId { get; set; }
+        //[Required]
+        public string Full_Name { get; set; }
+        public double Balance { get; set; }
 
-    [Column("userName")]  // Maps UserName property to userName column
-    public string UserName { get; set; } = null!;
-
-    [Column("balance")]  // Maps Balance property to balance column
-    public double Balance { get; set; }
-
-    [Column("createdDate")]  // Maps CreatedDate property to createdDate column
-    public DateTime CreatedDate { get; set; }
-
-    [Column("updatedDate")]  // Maps UpdatedDate property to updatedDate column
-    public DateTime UpdatedDate { get; set; }
-
-    //[Column("pin")]  // Maps pin property to pin column
-    //public string? pin { get; set; } = null;
+        public string Phone_Number { get; set; }
 
 
-}
+
+
+
+    }
 
     [Table("Pin")]
-    public partial class Pincode { 
-    
-        [Column("userId")]
+    public partial class Pin_tbl
+    {
+        [Key]
         public int UserId { get; set; }
-        [Column("pinCode")]
-        public string PinCode {  get; set; }
+        public string PinCode { get; set; } = "";
 
 
     }
 
-
-    [Table("FirstTimeLogin")]  // Maps the class to the FirstTimeLogin table
-    public partial class FirstTimeLogin
+    [Table("OTPCodes")]
+    public partial class OTP_Tbl
     {
-        [Column("firstLoginId")]  // Maps FirstLoginId property to firstLoginId column
-        public int FirstLoginId { get; set; }
-
-        [Column("userId")]  // Maps UserId property to userId column
+        [Key]
+        public int Otp_Id { get; set; }
         public int UserId { get; set; }
 
-        [Column("firstTimeCode")]  // Maps FirstTimeCode property to firstTimeCode column
-        public string FirstTimeCode { get; set; } = null!;
+        public string Otp_Code { get; set; }
 
-        [Column("firstLoginTime")]  // Maps FirstLoginTime property to firstLoginTime column
-        public DateTime FirstLoginTime { get; set; }
+        public string Type { get; set; }
 
-        [Column("isFirstLogin")]  // Maps IsFirstLogin property to isFirstLogin column
-        public bool IsFirstLogin { get; set; }
+        public DateTime Expire_Date { get; set; }
+
+
     }
 
-    [Table("OTPCodes")]  // Maps the class to the OTPCodes table
-    public partial class OTPCode
+    [Table("FirstTimeLogin")]
+    public partial class First_Login_Tbl
     {
-        [Column("otpId")]  // Maps the OtpId property to the otpId column
-        public int OtpId { get; set; }
-
-        [Column("userId")]  // Maps the UserId property to the userId column
+        [Key]
         public int UserId { get; set; }
 
-        [Column("otpCode")]  // Maps the OtpCodeValue property to the otpCode column
-        public string? OtpCodeValue { get; set; } = null!;
+        public string Login_code { get; set; }
+        public DateTime First_Login_Date { get; set; }
 
-        [Column("otpExpiryDate")]  // Maps the OtpExpiryDate property to the otpExpiryDate column
-        public DateTime OtpExpiryDate { get; set; }
+        public bool Is_LoggedIn { get; set; } = false;
 
-        [Column("otpStatus")]  // Maps the OtpStatus property to the otpStatus column
-        public string? OtpStatus { get; set; } = null!;
-
-        [Column("otpType")]
-        public string OtpType { get; set; }
     }
 
-
-    [Table("Transactions")]  // Maps the class to the Transactions table
-    public partial class Transaction
+    [Table("Transactions")]
+    public partial class Transaction_Tbl
     {
-        [Column("transactionId")]  // Maps TransactionId property to transactionId column
-        public int TransactionId { get; set; }
+        [Key]
+        public int Transaction_Id { get; set; }
+        public int senderId { get; set; }
+        public int? receiverId { get; set; } = null;
 
-        [Column("senderId")]  // Maps SenderId property to senderId column
-        public int SenderId { get; set; }
+        public double amount { get; set; }
 
-        [Column("transactionType")]  // Maps TransactionType property to transactionType column
-        public string TransactionType { get; set; } = null!;
+        public DateTime Transaction_Date { get; set; }
 
-        [Column("amount")]  // Maps Amount property to amount column
-        public double Amount { get; set; }
+        public string Transaction_Type { get; set; }
 
-        [Column("receiverId")]  // Maps ReceiverId property to receiverId column
-        public int? ReceiverId { get; set; } = null;
+        public string Notes { get; set; }
 
-        [Column("transactionTime")]  // Maps TransactionTime property to transactionTime column
-        public DateTime TransactionTime { get; set; }
 
-        [Column("status")]  // Maps Status property to status column
-        public string Status { get; set; } = null!;
-
-        [Column("balanceAfter")]  // Maps BalanceAfter property to balanceAfter column
-        public double BalanceAfter { get; set; }
-
-        [Column("notes")]
-        public string Note { get; set; }
 
     }
 
-    [Table("Receipts")]  // Maps the class to the Receipts table
-    public partial class Receipt
-    {
-        [Column("receiptId")]  // Maps ReceiptId property to receiptId column
-        public int ReceiptId { get; set; }
-
-        [Column("transactionId")]  // Maps TransactionId property to transactionId column
-        public int TransactionId { get; set; }
-
-        [Column("userId")]  // Maps UserID property to userId column
-        public int UserID { get; set; }
-
-        [Column("receiptContent")]  // Maps ReceiptContent property to receiptContent column
-        public string ReceiptContent { get; set; } = null!;
-
-        [Column("issuedDate")]  // Maps IssuedDate property to issuedDate column
-        public DateTime IssuedDate { get; set; }
-    }
-}

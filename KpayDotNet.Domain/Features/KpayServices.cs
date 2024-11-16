@@ -1,5 +1,6 @@
 ﻿using KpayDotNet.Domain.Functions;
 using KPayEfcore.Database.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,246 +12,213 @@ using System.Threading.Tasks;
 namespace KpayDotNet.Domain.Features;
 
 
-public class KpayService
+public class KpayServices
 {
-    private readonly ServiceHelper _serviceHelper;
-
-    public KpayService()
+    private readonly AppDbContext dbcontext = new AppDbContext();
+    Random random = new Random();
+    public string? Generate_First_TimeCode(User_Tbl user)
     {
-        _serviceHelper = new ServiceHelper(); // Initialize the service helper
+        string code = random.Next(123456, 987654).ToString();
+
+        First_Login_Tbl first_Login = new First_Login_Tbl()
+        {
+            UserId = user.UserId,
+            Login_code = code,
+            First_Login_Date = DateTime.Now
+
+
+        };
+        dbcontext.FirstTimeLogins.Add(first_Login);
+        int result = dbcontext.SaveChanges();
+        return result > 0 ? code : null;
     }
 
-    // Deposit API
-    public string Deposit(string mobileNo, double amount, string pin, string note)
-    {
-        var user = _serviceHelper.GetUserByPhoneNumber(mobileNo); // Assume a method that fetches user by phone number
-        if (user is null)
-        {
-            return "User not found";
-        }
-        if (!_serviceHelper.checkPin(user.UserId, pin))
-        {
-            return "Invalid pin.";
-        }
-        if (!_serviceHelper.hasMoreBalance(user.UserId, amount + 10000))
-        {
-            return "Insufficient balance. Minimum balance of 10,000 MMK required after Deposit.";
-        }
-        // Call the depositMoney method in ServiceHelper
-        var transaction = _serviceHelper.depositMoney(user.UserId, amount, note);
 
-        return transaction != null ? "Deposit successful" : "Deposit failed";
+    public int Create_User(User_Tbl User)
+    {
+        dbcontext.Users.Add(User);
+        int result = dbcontext.SaveChanges();
+        return result;
     }
 
-    // Withdraw API
-    public string Withdraw(string mobileNo, double amount,string pin,string note)
+    public string GetOtp(User_Tbl User, string type)
     {
-        var user = _serviceHelper.GetUserByPhoneNumber(mobileNo);
-        if (user is null)
+        string code = random.Next(123456, 987654).ToString();
+
+        OTP_Tbl otp = new OTP_Tbl()
         {
-            return "User not found";
-        }
-        if (!_serviceHelper.checkPin(user.UserId, pin))
-        {
-            return "Invalid pin.";
-        }
-        // Ensure that the balance after withdrawal will be at least 10,000 MMK
-        if (!_serviceHelper.hasMoreBalance(user.UserId, amount + 10000))
-        {
-            return "Insufficient balance. Minimum balance of 10,000 MMK required after withdrawal.";
-        }
 
-        // Call the WithDrawMoney method in ServiceHelper
-        var transaction = _serviceHelper.WithDrawMoney(user.UserId, amount, note);
+            UserId = User.UserId,
+            Otp_Code = code,
+            Type = type,
+            Expire_Date = DateTime.Now.AddMinutes(10)
+        };
+        dbcontext.OTP_Codes.Add(otp);
+        dbcontext.SaveChanges();
 
-        return transaction != null ? "Withdraw successful" : "Withdraw failed";
-    }
 
-    // Transfer API
-    public string Transfer(string fromMobileNo, string toMobileNo, double amount, string pin, string note)
-    {
-        // Validate sender and receiver are not the same
-        if (fromMobileNo == toMobileNo)
-        {
-            return "Transfer failed: Sender and receiver cannot be the same.";
-        }
-
-        var sender = _serviceHelper.GetUserByPhoneNumber(fromMobileNo);
-        var receiver = _serviceHelper.GetUserByPhoneNumber(toMobileNo);
-
-        // Check sender and receiver existence
-        if (sender is null)
-        {
-            return "Sender not found.";
-        }
-
-        if (receiver is null)
-        {
-            return "Receiver not found.";
-        }
-
-        // Validate pin for the sender
-        if (!_serviceHelper.checkPin(sender.UserId, pin))
-        {
-            return "Invalid pin.";
-        }
-
-        // Ensure sender has enough balance
-        if (!_serviceHelper.hasMoreBalance(sender.UserId, amount+10000))
-        {
-            return "Insufficient balance.";
-        }
-
-        // Perform the balance transfer
-        var transaction = _serviceHelper.BalanceTransfer(sender.UserId,  receiver.UserId, amount, note);
-
-        return transaction != null ? "Transfer successful" : "Transfer failed";
-    }
-
-    // Transaction History API
-    public List<Transaction>? GetTransactionHistory(string mobileNo)
-    {
-        var user = _serviceHelper.GetUserByPhoneNumber(mobileNo);
-        if (user is null)
-        {
-            return null; // No data if user doesn't exist
-        }
-
-        // Get transaction history
-        return _serviceHelper.getTransactionHistory(user.UserId);
-    }
-
-    public List<Receipt>? GetReceiptHistory(string mobileNo)
-    {
-        var user = _serviceHelper.GetUserByPhoneNumber(mobileNo);
-        if (user is null)
-        {
-            return null; // No data if user doesn't exist
-        }
-
-        // Get transaction history
-        var list = _serviceHelper.getReceiptRecord(user.UserId);
-        return list;
-    }
-
-    // Balance Check API
-    public double GetBalance(string mobileNo)
-    {
-        var user = _serviceHelper.GetUserByPhoneNumber(mobileNo);
-        if (user is null)
-        {
-            return 0.0; // Return 0 for non-existing users
-        }
-
-        return _serviceHelper.getBalance(user.UserId);
-    }
-
-    // Create Wallet User API
-    public string CreateWalletUser(User user)
-    {
-        string code = _serviceHelper.CreateAccount(user);
-        // return !string.IsNullOrEmpty(code) ? "Account created successfully. Use the code for first login." : "Account creation failed.";
         return code;
     }
 
-    // First Time Login API
-    public string FirstTimeLogin(string mobileNo, string code,string pin)
+    public User_Tbl? GetUserbyPhnum(string number)
     {
-        var user = _serviceHelper.GetUserByPhoneNumber(mobileNo);
-        if (user is null)
+
+        var user = dbcontext.Users.Where(x => x.Phone_Number == number).FirstOrDefault();
+        return user;
+
+    }
+
+    public int setupPin(User_Tbl user, string pin)
+    {
+
+
+
+        Pin_tbl item = new Pin_tbl()
         {
-            return "User not found";
-        }
-        var result = _serviceHelper.LoginFirstTime(user.UserId, code, pin);
-        // Validate first-time login using the code
+
+            UserId = user.UserId,
+            PinCode = pin
+        };
+
+        dbcontext.Pin_Codes.Add(item);
+        int result = dbcontext.SaveChanges();
+
+        return result;
+
+    }
+
+    public int Change_Pin(User_Tbl user, string newpin)
+    {
+        var pinItem = dbcontext.Pin_Codes.AsNoTracking().Where(x => x.UserId == user.UserId).FirstOrDefault();
+
+
+        pinItem.PinCode = newpin;
+
+        dbcontext.Entry(pinItem).State = EntityState.Modified;
+        int result = dbcontext.SaveChanges();
+
+        return result;
+
+    }
+
+    public bool CheckCode(int id, string code)
+    {
+        bool result = dbcontext.FirstTimeLogins.Any(x => x.UserId == id && x.Login_code == code);
+        return result;
+
+
+    }
+    public bool CheckOTP(int id, string code, string type)
+    {
+        bool result = dbcontext.OTP_Codes.Any(x => x.UserId == id && x.Otp_Code == code && x.Type == type);
+        return result;
+
+    }
+    public bool CheckPin(int id, string pin)
+    {
+        bool result = dbcontext.Pin_Codes.Any(x => x.UserId == id && x.PinCode == pin);
+        return result;
+
+    }
+
+    public int changePhoneNumber(int id, string number)
+    {
+
+
+        var user = dbcontext.Users.AsNoTracking().Where(x => x.UserId == id).FirstOrDefault()!;
+
+        user.Phone_Number = number;
+
+        dbcontext.Entry(user).State = EntityState.Modified;
+        int result = dbcontext.SaveChanges();
+        return result;
+
+    }
+
+    public bool MoreBalance(User_Tbl sender, double amount)
+    {
+        var user = dbcontext.Users.AsNoTracking().Where(x => x.UserId == sender.UserId).FirstOrDefault()!;
+
+        bool result = user.Balance > amount;
+
+        return result;
+
+
+    }
+
+    public int DeductBalance(User_Tbl sender, double amount)
+    {
+        var user = dbcontext.Users.AsNoTracking().Where(x => x.UserId == sender.UserId).FirstOrDefault();
+
+        user.Balance -= amount;
+
+        dbcontext.Entry(user).State = EntityState.Modified;
+        int result = dbcontext.SaveChanges();
+
         return result;
     }
 
-    // Login API (Using OTP)
-    public User? Login(string mobileNo, string otp)
+    public int AddBalance(User_Tbl sender, double amount)
     {
-        var user = _serviceHelper.GetUserByPhoneNumber(mobileNo);
-        if (user is null)
-        {
-            return null; // No data if user doesn't exist
-        }
-        
-        // Attempt login via OTP
-        var userItem = _serviceHelper.login(user.UserId, otp);
-        return userItem;
-    }
+        var user = dbcontext.Users.AsNoTracking().Where(x => x.UserId == sender.UserId).FirstOrDefault();
 
-    // Change Pin API
-    public string ChangePin(string mobileNo, string oldPin, string newPin)
-    {
-        var user = _serviceHelper.GetUserByPhoneNumber(mobileNo);
-        if (user is null)
-        {
-            return "User not found";
-        }
+        user.Balance += amount;
 
-        // Change pin
-       string result = _serviceHelper.ChangePin(user.UserId, oldPin, newPin);
+        dbcontext.Entry(user).State = EntityState.Modified;
+        int result = dbcontext.SaveChanges();
+
         return result;
     }
 
-    public string GetOtp(string mobileNo)
+    public Transaction_Tbl? CreateTransaction(User_Tbl sender, User_Tbl receiver, double Amount, string note, string type)
     {
-        var user = _serviceHelper.GetUserByPhoneNumber(mobileNo);
-        if (user is null)
+        Transaction_Tbl transaction = new Transaction_Tbl()
         {
-            return "User not found";
-        }
-        var item = _serviceHelper.GetOTP(mobileNo);
-        
+            senderId = sender.UserId,
+            receiverId = receiver.UserId,
+            amount = Amount,
+            Notes = note,
+            Transaction_Date = DateTime.Now,
+            Transaction_Type = type,
 
-        // Change pin
-        
-        return item;
+
+
+        };
+
+        dbcontext.Transactions.Add(transaction);
+        int result = dbcontext.SaveChanges();
+        if (result == 0) { return null; }
+        return transaction;
+
+    }
+    public Transaction_Tbl? CreateTransaction(User_Tbl sender, double Amount, string note, string type)
+    {
+        Transaction_Tbl transaction = new Transaction_Tbl()
+        {
+            senderId = sender.UserId,
+
+            amount = Amount,
+            Notes = note,
+            Transaction_Date = DateTime.Now,
+            Transaction_Type = type,
+
+
+
+        };
+
+        dbcontext.Transactions.Add(transaction);
+        int result = dbcontext.SaveChanges();
+        if (result == 0) { return null; }
+        return transaction;
+
     }
 
-    // Change Phone Number API
-    public string ChangePhoneNumber(string oldMobileNo, string newMobileNo,string pin)
+    public List<Transaction_Tbl>? getTransactionHistory(int userId)
     {
-        var user = _serviceHelper.GetUserByPhoneNumber(oldMobileNo);
-        if (_serviceHelper.checkPin(user.UserId, pin) ){ 
-        
-            return "Pin Error";
-        }
-        if (user is null)
-        {
-            return "User not found";
-        }
+        var list = dbcontext.Transactions.Where(x => x.senderId == userId || x.receiverId == userId).ToList();
+        return list;
 
-        // Change phone number
-      string result =   _serviceHelper.ChangePhoneNumber(user.UserId, newMobileNo);
-        return result;
-    }
 
-    // Forget Password API
-    public string ForgetPin(string mobileNo)
-    {
-        var user = _serviceHelper.GetUserByPhoneNumber(mobileNo);
-        if (user is null)
-        {
-            return "User not found";
-        }
 
-        // Generate and return OTP for password reset
-        return _serviceHelper.ForgetPin(user.UserId);
-    }
-
-    // Reset Password API
-    public string ResetPin(string mobileNo, string resetCode, string newPin)
-    {
-        var user = _serviceHelper.GetUserByPhoneNumber(mobileNo);
-        if (user is null)
-        {
-            return "User not found";
-        }
-
-        // Reset the pin
-      string result =   _serviceHelper.ResetPin(user.UserId, resetCode, newPin);
-        return result;
     }
 }

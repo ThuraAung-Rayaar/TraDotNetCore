@@ -4,110 +4,110 @@ namespace KPayEfcore.Database.Models
 {
     public partial class AppDbContext : DbContext
     {
-        public AppDbContext()
-        {
-
-
-
-
-        }
-
+        
+    public AppDbContext() { }
         public AppDbContext(DbContextOptions<AppDbContext> options)
-            : base(options)
+        : base(options)
         {
         }
 
-        public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<Pincode> PinCodes { get; set; } = null!;
-        public virtual DbSet<FirstTimeLogin> FirstTimeLogin { get; set; } = null!;
-        public virtual DbSet<OTPCode> OtpCodes { get; set; } = null!;
-        public virtual DbSet<Transaction> Transactions { get; set; } = null!;
-        public virtual DbSet<Receipt> Receipts { get; set; } = null!;
+        public virtual DbSet<User_Tbl> Users { get; set; }
+        public virtual DbSet<Pin_tbl> Pin_Codes { get; set; }
+        public virtual DbSet<OTP_Tbl> OTP_Codes { get; set; }
+        public virtual DbSet<First_Login_Tbl> FirstTimeLogins { get; set; }
+        public virtual DbSet<Transaction_Tbl> Transactions { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+
             if (!optionsBuilder.IsConfigured)
             {
-                string connectionString = "Data Source=.;Initial Catalog=KPayDotNetBatch5;User ID=sa;Password=sasa@123;TrustServerCertificate=True";
-                optionsBuilder.UseSqlServer(connectionString);
-            }
-        }
 
+                string connectionString = "Data Source = .;Initial Catalog = KPayDotNetBatch5;User ID =sa; Password = sasa@123;TrustServerCertificate  = True";
+                object value = optionsBuilder.UseSqlServer(connectionString);
+
+
+            }
+
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>(entity =>
+
+            modelBuilder.Entity<User_Tbl>(entity =>
             {
                 entity.HasKey(e => e.UserId);
-                entity.Property(e => e.PhoneNumber).HasMaxLength(15).IsRequired();
-                entity.Property(e => e.UserName).HasMaxLength(255).IsRequired();
+
+                entity.Property(e => e.Full_Name)
+                .HasMaxLength(50);
+
                 entity.Property(e => e.Balance).HasColumnType("decimal(10, 2)");
-                entity.Property(e => e.CreatedDate).HasDefaultValueSql("GETDATE()");
-                entity.Property(e => e.UpdatedDate).HasDefaultValueSql("GETDATE()");
-                //entity.Property(e => e.pin).HasDefaultValue(null);
-            });
-            modelBuilder.Entity<Pincode>(x =>
 
-            {
-                x.HasKey(e => e.UserId);
-                x.Property(e => e.PinCode).HasMaxLength(6).HasDefaultValue(null);
-            
-            
-            }
-            );
-            modelBuilder.Entity<FirstTimeLogin>(entity =>
-            {
-                entity.HasKey(e => e.FirstLoginId);
-                entity.Property(e => e.FirstTimeCode).HasMaxLength(6).IsRequired();
-                //entity.HasOne(d => d.User)
-                //      .WithMany(p => p.FirstTimeLogins)
-                //      .HasForeignKey(d => d.UserId)
-                //      .OnDelete(DeleteBehavior.Cascade);
+                entity.Property(e => e.Phone_Number).HasMaxLength(15)
+                .IsFixedLength();
             });
 
-            modelBuilder.Entity<OTPCode>(entity =>
+            modelBuilder.Entity<Pin_tbl>(entity =>
             {
-                entity.HasKey(e => e.OtpId);
-                entity.Property(e => e.OtpCodeValue).HasMaxLength(6).IsRequired();
-                entity.Property(e => e.OtpStatus).HasMaxLength(20).IsRequired();
-                entity.Property(e=>e.OtpType).HasMaxLength(20).IsRequired();
-                //entity.HasOne(d => d.User)
-                //      .WithMany(p => p.OtpCodes)
-                //      .HasForeignKey(d => d.UserId)
-                //      .OnDelete(DeleteBehavior.Cascade);
+                entity.HasKey(e => e.UserId);
+
+                entity.Property(e => e.PinCode).HasMaxLength(6)
+                .HasDefaultValue("");
             });
 
-            modelBuilder.Entity<Transaction>(entity =>
+            modelBuilder.Entity<OTP_Tbl>(entity =>
             {
-                entity.HasKey(e => e.TransactionId);
-                entity.Property(e => e.TransactionType).HasMaxLength(20).IsRequired();
-                entity.Property(e => e.Amount).HasColumnType("decimal(10, 2)").IsRequired();
-                entity.Property(e => e.TransactionTime).HasDefaultValueSql("GETDATE()");
-                entity.Property(e => e.Status).HasMaxLength(20).IsRequired();
-                entity.Property(e => e.BalanceAfter).HasColumnType("decimal(10, 2)").IsRequired();
-                entity.Property(e => e.Note).HasColumnType("varchar(MAX)").IsRequired();
-                //entity.HasOne(d => d.User)
-                //      .WithMany(p => p.Transactions)
-                //      .HasForeignKey(d => d.UserId)
-                //      .OnDelete(DeleteBehavior.Cascade);
+                entity.HasKey(e => e.Otp_Id);
 
-                //entity.HasOne(d => d.Receipt)
-                //      .WithOne(p => p.Transaction)
-                //      .HasForeignKey<Transaction>(d => d.ReceiptId);
+                entity.Property(e => e.Otp_Code)
+                .HasMaxLength(6).IsRequired();
+
+                entity.Property(e => e.Type).
+                HasMaxLength(20).IsRequired();
+
+                entity.Property(e => e.Expire_Date)
+                .HasColumnType("datetime");
+
             });
 
-            modelBuilder.Entity<Receipt>(entity =>
+            modelBuilder.Entity<First_Login_Tbl>(entity =>
             {
-                entity.HasKey(e => e.ReceiptId);
-                entity.Property(e => e.ReceiptContent).IsRequired();
-                entity.Property(e => e.IssuedDate).HasDefaultValueSql("GETDATE()");
-                //entity.HasOne(d => d.Transaction)
-                //      .WithOne(p => p.Receipt)
-                //      .HasForeignKey<Receipt>(d => d.TransactionId)
-                //      .OnDelete(DeleteBehavior.Cascade);
+                entity.HasKey(e => e.UserId);
+
+                entity.Property(e => e.Login_code)
+                .HasMaxLength(6).IsRequired();
+
+                entity.Property(e => e.First_Login_Date)
+                .HasColumnType("datetime");
+
+                entity.Property(e => e.Is_LoggedIn)
+                .HasDefaultValue(false);
+
             });
 
+            modelBuilder.Entity<Transaction_Tbl>(entity =>
+            {
+                entity.HasKey(e => e.Transaction_Id);
+
+                entity.Property(e => e.senderId).IsRequired();
+
+                entity.Property(e => e.receiverId);
+
+                entity.Property(e => e.amount)
+                .HasColumnType("decimal(10, 2)").IsRequired();
+
+                entity.Property(e => e.Transaction_Date)
+                .HasColumnType("datetime");
+
+                entity.Property(e => e.Transaction_Type)
+                .HasMaxLength(20).IsRequired();
+
+                entity.Property(e => e.Notes).HasColumnType("varchar(MAX)");
+
+
+            });
             OnModelCreatingPartial(modelBuilder);
         }
+
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
