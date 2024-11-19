@@ -11,8 +11,13 @@ public static class KpayEndPoints
 
         app.MapPost("/api/create-wallet-user", (User_Tbl user) => {
 
+            #region User Creation
             int result = _services.Create_User(user);
+            #endregion
+
+            #region Get Firt Time Login Code
             var code = _services.Generate_First_TimeCode(user);
+            #endregion
 
             return (result > 0 && code is not null) ? Results.Ok(code) : Results.BadRequest("Error User Entry");
 
@@ -24,15 +29,23 @@ public static class KpayEndPoints
 
         app.MapPost("/api/first-time-login/{number}", (string number, string code, string newPin) => {
 
+            #region Check Phone Number
             var user = _services.GetUserbyPhnum(number);
             if (user is null) return Results.NotFound("Phone num not found");
 
+            #endregion
+
+            #region Check  Login Code
             var checkCode = _services.CheckCode(user.UserId, code);
             if (!checkCode) return Results.NotFound("Login Code not found");
+            #endregion
+
+            #region Setup New Pin for User
 
             int pinResult = _services.setupPin(user, newPin);
             if (pinResult == 0) return Results.BadRequest("Error Pin Set up");
 
+            #endregion
 
             return Results.Ok("Pin Steup Complete");
 
@@ -42,10 +55,14 @@ public static class KpayEndPoints
 
         app.MapGet("/api/GetOTP/{number}", (string number) => {
 
+            #region check Phone Number
             var user = _services.GetUserbyPhnum(number);
             if (user is null) return Results.NotFound("Phone num not found");
+            #endregion
 
+            #region Request OTP code for Login
             var code = _services.GetOtp(user, "Login");
+            #endregion
 
             return Results.Ok($"OTP code :{code}");
 
@@ -55,13 +72,16 @@ public static class KpayEndPoints
 
         app.MapGet("/api/login/{number}", (string number, string code) => {
 
+            #region Check Phone Number
             var user = _services.GetUserbyPhnum(number);
             if (user is null) return Results.NotFound("Phone num not found");
+            #endregion
 
+            #region Check OTP code
             var checkCode = _services.CheckOTP(user.UserId, code, "Login");
             if (!checkCode) return Results.NotFound("OTP Code not found");
 
-
+            #endregion
 
 
             return Results.Ok(user);
@@ -72,9 +92,11 @@ public static class KpayEndPoints
 
         app.MapGet("/api/balance/get/{number}", (string number) => {
 
+            #region Get  User
+
             var user = _services.GetUserbyPhnum(number);
             if (user is null) return Results.NotFound("Phone num not found");
-
+            #endregion
 
 
 
