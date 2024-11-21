@@ -14,4 +14,12 @@ namespace TRADotNetCore.POS.Domain.Models.Product
         public List<ProductViewModel>? productModels { get; set; }
 
     }
+
+    public class ResultProductResponseModel
+    {
+      // public BaseResponseModel response { get; set; }
+
+        public List<ProductViewModel>? productModels { get; set; }
+
+    }
 }

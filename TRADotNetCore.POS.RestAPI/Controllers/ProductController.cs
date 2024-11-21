@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TRADotNetCore.POS.Database.Models;
 using TRADotNetCore.POS.Domain.Freatures;
+using TRADotNetCore.POS.Domain.Models.Product;
 
 namespace TRADotNetCore.POS.RestAPI.Controllers;
 
@@ -13,10 +14,13 @@ public class ProductController : ControllerBase
 
 
     [HttpGet("product")]
-    public IActionResult GetAllProducts()
+    public async Task<Result<ResultProductResponseModel>> GetAllProducts()
     {
-        var response = _services.GetAllProduct();
-        return Ok(response);
+        var response = await _services.GetAllProductAsync2();
+       
+        
+
+        return response;
     }
     [HttpGet("product/instock")]
     public IActionResult GetAllProductInStock()
@@ -27,7 +31,7 @@ public class ProductController : ControllerBase
     [HttpGet("product/instock/{name}")]
     public IActionResult GetProductInStock(string productName)
     {
-        var response = _services.GetProductInStock(productName);
+        var response = _services.GetProductInStockAsync(productName);
         return Ok(response);
     }
 

@@ -37,45 +37,81 @@ namespace TRADotNetCore.POS.Domain.Functions
         
         }
 
-        public List<ProductViewModel>? GetProductViewModelList(string? checker=null) {
+        public async Task<List<ProductViewModel>?> GetProductViewModelListAsync(string? checker = null)
+        {
+            List<ProductDetail>? productList = null;
+            List<ProductCategory>? categoryList = null;
+            List<ProductInStock>? instockList = null;
 
-            var productList = getAllProduct()?.Where(x => x.ProductCode == checker || x.ProductName == checker).ToList();
-            var categoryList = getAllCategory()?.Where(x => x.ProductCategoryName == checker).ToList();
-            var instockList = getAllInStockRecord();
+            
+            if (string.IsNullOrEmpty(checker))
+            {
+                productList = await getAllProductsAsync();
+                categoryList = await getAllCategoryAsync();
+            }
+            else
+            {
+                
+                productList =  (await getAllProductsAsync())?.Where(x => x.ProductCode == checker || x.ProductName == checker).ToList();
 
-            if (productList is null || categoryList is null || instockList is null)
+               
+                if (productList is null || productList.Count == 0)
+                {
+                    productList = await getAllProductsAsync();
+                    categoryList = (await getAllCategoryAsync())?.Where(x => x.ProductCategoryName == checker).ToList();
+                }
+                else
+                {
+                    
+                    categoryList = await getAllCategoryAsync();
+                }
+            }
+
+           
+            instockList = await getAllInStockRecordAsync();
+
+            
+            if (productList is null || productList.Count==0 ||
+                categoryList is null || categoryList.Count==0 ||
+                instockList is null || instockList.Count == 0)
             {
                 return null;
             }
 
-           
-
             List<ProductViewModel> modelList = new List<ProductViewModel>();
+
+            
             foreach (ProductDetail product in productList)
             {
                 
-                ProductCategory category = categoryList.FirstOrDefault(x => x.ProductCategoryCode == product.ProductCategoryCode)!;
-                ProductInStock inStock = instockList.FirstOrDefault(x => x.ProductCode == product.ProductCode)!;
+                var category = categoryList.FirstOrDefault(x => x.ProductCategoryCode == product.ProductCategoryCode);
+                var inStock = instockList.FirstOrDefault(x => x.ProductCode == product.ProductCode && x.Count>0);
 
-                
+               
+                if (category is null || inStock is null)
+                {
+                    continue;
+                }
+
+
                 modelList.Add(GetProductVModel(product, category, inStock));
             }
-            return modelList;
 
+            return modelList;
         }
 
 
-        public int addCategory(ProductCategory category)
+        public async Task<int> addCategory(ProductCategory category)
         {
-            bool isOldProduct = dbcontext.ProductCategories.Any(x => x.ProductCategoryCode == category.ProductCategoryCode);
+            bool isOldProduct =  dbcontext.ProductCategories.Any(x => x.ProductCategoryCode == category.ProductCategoryCode);
             if (isOldProduct) { return 0; }
 
             dbcontext.ProductCategories.Add(category);
-            int result = dbcontext.SaveChanges();
+          int result = await dbcontext.SaveChangesAsync();
             return result;
         }
 
-        public int addInstockRecord(string productCode, int count)
+        public async Task<int> addInstockRecordAsync(string productCode, int count)
         {
             ProductInStock inStockItem = new ProductInStock()
             {
@@ -85,11 +121,12 @@ namespace TRADotNetCore.POS.Domain.Functions
             };
 
             dbcontext.InStocks.Add(inStockItem);
-            int resut = dbcontext.SaveChanges();
-            return resut;
+            int result = await dbcontext.SaveChangesAsync();
+            return result;
 
         }
 
+        //forget uses
         public bool checkCategory(ProductDetail product)
         {
             var result = dbcontext.ProductCategories.Any(x => x.ProductCategoryCode == product.ProductCategoryCode);//.FirstOrDefault();
@@ -97,32 +134,33 @@ namespace TRADotNetCore.POS.Domain.Functions
             return result;
         }
 
-        public int createProductDetail(ProductDetail product)
+        
+        public async Task<int> createProductDetailAsync(ProductDetail product)
         {
             bool isOldProduct = dbcontext.Products.Any(x => x.ProductCode == product.ProductCode);
             if (isOldProduct) { return 0; }
 
             dbcontext.Products.Add(product);
-            int result = dbcontext.SaveChanges();
+            int result = await dbcontext.SaveChangesAsync();
             return result;
         }
 
-        public int UpdateProductInstock(string productCode, int count)
+        public async Task<int> UpdateProductInstockAsync(string productCode, int count)
         {
             int result = 0;
             var stock = dbcontext.InStocks.AsNoTracking().Where(x => x.ProductCode == productCode).FirstOrDefault();
-            if (stock is null) { result = addInstockRecord(productCode, count); return result; }
+            if (stock is null) { result = await addInstockRecordAsync(productCode, count); return result; }
 
             stock.Count = count;
 
 
             dbcontext.Entry(stock).State = EntityState.Modified;
 
-            result = dbcontext.SaveChanges();
+            result = await dbcontext.SaveChangesAsync();
             return result;
         }
 
-        public int EditProductInstock(string productCode, int count)
+        public async Task<int> EditProductInstock(string productCode, int count)
         {
             int result = 0;
             var stock = dbcontext.InStocks.AsNoTracking().Where(x => x.ProductCode == productCode).FirstOrDefault();
@@ -134,37 +172,25 @@ namespace TRADotNetCore.POS.Domain.Functions
 
             dbcontext.Entry(stock).State = EntityState.Modified;
 
-            result = dbcontext.SaveChanges();
+            result = await dbcontext.SaveChangesAsync();
             return result;
         }
 
-        public List<ProductDetail>? getAllProduct()
+        public async Task<List<ProductDetail>> getAllProductsAsync()
         {
-            var Productlist = dbcontext.Products.ToList();
-            //.Where(
-            //     x => dbcontext.InStocks.Any(y => y.ProductCode == x.ProductCode)
-            //     );
-
-            return Productlist;
+            var list= await dbcontext.Products.ToListAsync();
+            return list;
         }
-        public List<ProductCategory>? getAllCategory()
+        public async Task<List<ProductCategory>> getAllCategoryAsync()
         {
-            var categoryList = dbcontext.ProductCategories.ToList();
-            //.Where(
-            //     x => dbcontext.InStocks.Any(y => y.ProductCode == x.ProductCode)
-            //     );
-
-            return categoryList;
+            var list = await dbcontext.ProductCategories.ToListAsync();
+            return list;
         }
 
-        public List<ProductInStock>? getAllInStockRecord()
+        public async Task<List<ProductInStock>> getAllInStockRecordAsync()
         {
-            var instockList = dbcontext.InStocks.ToList();
-            //.Where(
-            //     x => dbcontext.InStocks.Any(y => y.ProductCode == x.ProductCode)
-            //     );
-
-            return instockList;
+            var list = await dbcontext.InStocks.ToListAsync(); 
+            return list;
         }
 
         public ProductDetail? getProductByCategoryName(string CategoryName)
@@ -200,6 +226,6 @@ namespace TRADotNetCore.POS.Domain.Functions
             return item;
         }
 
-        
+       
     }
 }

@@ -15,10 +15,10 @@ public class ProductServices
 {
     private readonly ProductServiceHelper _serviceHelper = new ProductServiceHelper();
     
-    public ProductResponseModel GetAllProduct()
+    public async Task<ProductResponseModel> GetAllProductAsync()
     {
 
-        var modelList = _serviceHelper.GetProductViewModelList();
+        var modelList = await  _serviceHelper.GetProductViewModelListAsync();
        
 
 
@@ -34,54 +34,69 @@ public class ProductServices
        
     }
 
-    
-    public ProductResponseModel GetProductInStock(string productName)
+    public async Task<Result<ResultProductResponseModel>> GetAllProductAsync2()
+    {
+
+        var modelList = await _serviceHelper.GetProductViewModelListAsync();
+
+
+        var item = new ResultProductResponseModel { 
+        
+        productModels = modelList
+        };
+
+        
+
+        return (modelList is null) ? Result<ResultProductResponseModel>.InternalServerError("Product Not Found"): Result<ResultProductResponseModel>.Success(item);
+        
+
+
+    }
+
+    public async Task<ProductResponseModel> GetProductInStockAsync(string productName)
     {
         string code = "200"; string description = "Item Retrived Successfully";
+
         #region Validation
         var item = _serviceHelper.getProductByCodeOrName(productName);
        
         if (item is null) {
             description = "Item Not Found";
             code = "400";
-            goto ResultA; }
+            goto ValidError; }
 
 
 
 
         #endregion
 
-        var stockRecord = _serviceHelper.getProductInstock(item.ProductCode);
-        if (stockRecord is null)
+      //  var stockRecord = _serviceHelper.getProductInstock(item.ProductCode);
+        var viewModelList = await _serviceHelper.GetProductViewModelListAsync(item.ProductCode);
+        if (viewModelList is null)
         {
             code = "204";
             description = "no Product in stock";
-            goto ResultB;
+            goto ValidError;
         }
 
-        return new ProductResponseModel { 
+        return new ProductResponseModel
+        {
             response = BaseResponseModel.Success(code, description),
-            productModels = _serviceHelper.GetProductViewModelList()!.Where(x=>x.productCode == stockRecord.ProductCode).ToList()
-        
-        };
-        
+            productModels = viewModelList
 
-    ResultA:
+        };
+
+
+    ValidError:
         return new ProductResponseModel
         {
             response = BaseResponseModel.ValidationError(code, description),
             productModels = null
         };
 
-    ResultB:
-        return new ProductResponseModel
-        {
-            response = BaseResponseModel.ValidationError(code, description),
-            productModels = null
-        };
     }
     
-    public ProductResponseModel GetProductByName(string productName)
+    public async Task<ProductResponseModel> GetProductByName(string productName)
     {
 
         string code = "200"; string description = "Item Retrived Successfully";
@@ -90,10 +105,10 @@ public class ProductServices
         {
             description = "Item Not Found";
             code = "400";
-            goto ResultA;
+            goto ValidError;
         }
 
-        var productList = _serviceHelper.GetProductViewModelList(productName);
+        var productList = await _serviceHelper.GetProductViewModelListAsync(productName);
 
         return new ProductResponseModel
         {
@@ -105,24 +120,25 @@ public class ProductServices
 
 
 
-    ResultA:
+    ValidError:
         return new ProductResponseModel
         {
             response = BaseResponseModel.ValidationError(code, description),
             productModels = null
         };
+
     }
-    
-    public ProductResponseModel GetProductByCategory(string CategoryName)
+
+    public async Task<ProductResponseModel> GetProductByCategory(string CategoryName)
     {
         string code = "200"; string description = "Item Retrived Successfully";
 
-        var productList = _serviceHelper.GetProductViewModelList(CategoryName);
+        var productList =await _serviceHelper.GetProductViewModelListAsync(CategoryName);
          if (productList is null)
         {
             description = "Item Not Found";
             code = "400";
-            goto ResultA;
+            goto ValidError;
         }
 
 
@@ -132,49 +148,42 @@ public class ProductServices
             productModels = productList
         };
 
-
-    ResultA:
+    ValidError:
         return new ProductResponseModel
         {
             response = BaseResponseModel.ValidationError(code, description),
             productModels = null
         };
 
-       
+
     }
 
-    public ProductResponseModel GetAllProductsInStock() {
+    public async Task<ProductResponseModel> GetAllProductsInStock() {
 
         string code = "200";
         string description = "All in-stock items retrieved successfully";
 
 
-        var productList = _serviceHelper.GetProductViewModelList();
+        var productList = await _serviceHelper.GetProductViewModelListAsync();
         if (productList is null)
         {
             description = "Item Not Found";
             code = "400";
-            goto ResultA;
+            goto NotFoundError;
         }
 
-        List<ProductViewModel> InStockproducts = new List<ProductViewModel>();
-
-        foreach (var item in productList) {
-
-            if(_serviceHelper.getProductInstock(item.productCode) is not null)  InStockproducts.Add(item);
         
-        }
         return new ProductResponseModel {
             response = BaseResponseModel.ValidationError(code, description),
-            productModels = InStockproducts
+            productModels = productList
 
         };
 
 
-    ResultA:
+    NotFoundError:
         return new ProductResponseModel
         {
-            response = BaseResponseModel.ValidationError(code, description),
+            response = BaseResponseModel.NotFoundError(code, description),
             productModels = null
         };
 

@@ -74,6 +74,20 @@ namespace TRADotNetCore.POS.Database.Models
             };
 
         }
+        public static BaseResponseModel NotFoundError(string respCode, string responseDscript)
+        {
+
+            return new BaseResponseModel
+            {
+                IsSuccess = false,
+                responseCode = respCode,
+                responseDscript = responseDscript,
+                responseType = EnumResponse.NotFound
+
+
+            };
+
+        }
 
     }
 
@@ -83,6 +97,7 @@ namespace TRADotNetCore.POS.Database.Models
     
         None,
         Success,
+        NotFound,
         SystemError,
         ValidationError,
         internalServerError,
