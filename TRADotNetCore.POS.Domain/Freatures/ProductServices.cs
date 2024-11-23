@@ -26,7 +26,7 @@ public class ProductServices
         return new ProductResponseModel { 
 
 
-            response =(modelList is null)? BaseResponseModel.InternalServerError("503","Product Not Found"): BaseResponseModel.Success("200", "Product Query Successful"),
+            Response =(modelList is null)? BaseResponseModel.InternalServerError("503","Product Not Found"): BaseResponseModel.Success("200", "Product Query Successful"),
             productModels = modelList
 
         };
@@ -81,7 +81,7 @@ public class ProductServices
 
         return new ProductResponseModel
         {
-            response = BaseResponseModel.Success(code, description),
+            Response = BaseResponseModel.Success(code, description),
             productModels = viewModelList
 
         };
@@ -90,7 +90,7 @@ public class ProductServices
     ValidError:
         return new ProductResponseModel
         {
-            response = BaseResponseModel.ValidationError(code, description),
+            Response = BaseResponseModel.ValidationError(code, description),
             productModels = null
         };
 
@@ -112,7 +112,7 @@ public class ProductServices
 
         return new ProductResponseModel
         {
-            response = BaseResponseModel.ValidationError(code, description),
+            Response = BaseResponseModel.ValidationError(code, description),
             productModels = productList
         };
 
@@ -123,7 +123,7 @@ public class ProductServices
     ValidError:
         return new ProductResponseModel
         {
-            response = BaseResponseModel.ValidationError(code, description),
+            Response = BaseResponseModel.ValidationError(code, description),
             productModels = null
         };
 
@@ -144,14 +144,14 @@ public class ProductServices
 
         return new ProductResponseModel
         {
-            response = BaseResponseModel.ValidationError(code, description),
+            Response = BaseResponseModel.ValidationError(code, description),
             productModels = productList
         };
 
     ValidError:
         return new ProductResponseModel
         {
-            response = BaseResponseModel.ValidationError(code, description),
+            Response = BaseResponseModel.ValidationError(code, description),
             productModels = null
         };
 
@@ -174,7 +174,7 @@ public class ProductServices
 
         
         return new ProductResponseModel {
-            response = BaseResponseModel.ValidationError(code, description),
+            Response = BaseResponseModel.ValidationError(code, description),
             productModels = productList
 
         };
@@ -183,7 +183,7 @@ public class ProductServices
     NotFoundError:
         return new ProductResponseModel
         {
-            response = BaseResponseModel.NotFoundError(code, description),
+            Response = BaseResponseModel.NotFoundError(code, description),
             productModels = null
         };
 

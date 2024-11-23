@@ -9,7 +9,7 @@ namespace TRADotNetCore.POS.Domain.Models.Product
 {
     public class ProductResponseModel
     {
-        public BaseResponseModel response {  get; set; }
+        public BaseResponseModel Response {  get; set; }
 
         public List<ProductViewModel>? productModels { get; set; }
 

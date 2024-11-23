@@ -8,7 +8,7 @@ namespace TRADotNetCore.POS.RestAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductController : ControllerBase
+public class ProductController : BaseResponseController
 {
    private readonly ProductServices _services = new ProductServices();
 
@@ -21,6 +21,16 @@ public class ProductController : ControllerBase
         
 
         return response;
+    }
+
+    [HttpGet("product2")]
+    public async Task<IActionResult> GetAllProduct2()
+    {
+        var response = await _services.GetAllProductAsync();
+
+        
+
+      return  Excute(response);
     }
     [HttpGet("product/instock")]
     public IActionResult GetAllProductInStock()
