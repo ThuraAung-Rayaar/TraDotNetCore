@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KpayDotNet.Domain\KpayDotNet.Domain.csproj" />
-    <ProjectReference Include="..\KPayEfcore.Database\KPayEfcore.Database.csproj" />
+    <ProjectReference Include="..\KpayDotNet.Domain\TRADotNetCore.miniKpay.Domain.csproj" />
+    <ProjectReference Include="..\KPayEfcore.Database\TRADotNetCore.miniKpay.Database.csproj" />
   </ItemGroup>
 
 </Project>

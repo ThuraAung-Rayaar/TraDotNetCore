@@ -13,4 +13,11 @@ namespace KpayDotNet.Domain.ResponseModels
         public User_Tbl? user { get; set; }
 
     }
+
+    public class ResultUserResponseModel
+    {
+      //  public BaseResponseModel Response { get; set; }
+        public User_Tbl? user { get; set; }
+
+    }
 }

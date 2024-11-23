@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\KPayEfcore.Database\KPayEfcore.Database.csproj" />
+    <ProjectReference Include="..\KPayEfcore.Database\TRADotNetCore.miniKpay.Database.csproj" />
   </ItemGroup>
 
 </Project>
