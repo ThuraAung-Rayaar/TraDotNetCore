@@ -37,7 +37,16 @@ public class KpayServices
 
         #region User Creation
         int result = await _helper.Create_UserAsync(user);
+        if(result==0)
+        {
+            ResCode = EnumResponse.InternalServerError.ToString();
+            baseResponse = BaseResponseModel.InternalServerError(ResCode, "Error Creating user");
+            
+            goto Response_Result;
+        };
         #endregion
+
+
 
         #region Get Firt Time Login Code
         var FTcode =await _helper.Generate_First_TimeCodeAsync(user);

@@ -61,13 +61,11 @@ namespace KPayEfcore.Database.Models;
     [Table("FirstTimeLogin")]
     public partial class First_Login_Tbl
     {
-        [Key]
-        public int UserId { get; set; }
-
-        public string Login_code { get; set; }
-        public DateTime First_Login_Date { get; set; }
-
-        public bool Is_LoggedIn { get; set; } = false;
+   [Key][Column("userId")]
+    public int UserId { get; set; }
+    [Column("firstTimeCode")] public string Login_code { get; set; } 
+    [Column("firstLoginTime")] public DateTime First_Login_Date { get; set; } 
+    [Column("isFirstLogin")] public bool Is_LoggedIn { get; set; } = false; 
 
     }
 
