@@ -16,7 +16,7 @@ namespace KPayEfcore.Database.Models
         public virtual DbSet<OTP_Tbl> OTP_Codes { get; set; }
         public virtual DbSet<First_Login_Tbl> FirstTimeLogins { get; set; }
         public virtual DbSet<Transaction_Tbl> Transactions { get; set; }
-
+        public virtual DbSet<Receipt> ReceiptRecords { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 
@@ -44,6 +44,8 @@ namespace KPayEfcore.Database.Models
 
                 entity.Property(e => e.Phone_Number).HasMaxLength(15)
                 .IsFixedLength();
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<Pin_tbl>(entity =>
@@ -103,8 +105,22 @@ namespace KPayEfcore.Database.Models
 
                 entity.Property(e => e.Notes).HasColumnType("varchar(MAX)");
 
+                entity.Property(e => e.BalanceAfter).HasColumnType("decimal(10, 2)").IsRequired();
+
 
             });
+
+
+            modelBuilder.Entity<Receipt>(entity =>
+            {
+                entity.HasKey(e => e.Receipt_Id);
+                entity.Property(e => e.ReceiptContent).IsRequired();
+                entity.Property(e => e.IssuedDate).HasDefaultValueSql("GETDATE()");
+                entity.Property(e=>e.User_ID).IsRequired();
+                
+                
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 

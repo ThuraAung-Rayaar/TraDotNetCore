@@ -12,460 +12,260 @@ namespace KpayDotNet.Domain.Functions;
 
 public class ServiceHelper
 {
-    private readonly AppDbContext db = new AppDbContext(); // Class-level context
 
-    public int GenerateCode()
+    private readonly AppDbContext dbcontext = new AppDbContext();
+    Random random = new Random();
+    public async Task<string?> Generate_First_TimeCodeAsync(User_Tbl user)
     {
-        Random rnd = new Random();
-        return rnd.Next(123456, 987654);
+        string code = random.Next(123456, 987654).ToString();
+
+        First_Login_Tbl first_Login = new First_Login_Tbl()
+        {
+            UserId = user.UserId,
+            Login_code = code,
+            First_Login_Date = DateTime.Now
+
+
+        };
+        dbcontext.FirstTimeLogins.Add(first_Login);
+        int result = await dbcontext.SaveChangesAsync();
+        return result > 0 ? code : null;
     }
 
-    public void GenerateOneLogInCode(int id, string code)
+    public async Task<bool> CheckDuplicatePhoneNum(string phone_Number)
     {
-        FirstTimeLogin item = new FirstTimeLogin()
+        var isExist =await dbcontext.Users.AnyAsync(x=>x.Phone_Number == phone_Number);
+        return isExist;
+    }
+    public async Task<int> Create_UserAsync(User_Tbl user)
+    {
+        dbcontext.Users.Add(user);
+        return await dbcontext.SaveChangesAsync();
+    }
+
+    public async Task<string?> GetOtpAsync(User_Tbl user, string type)
+    {
+        string code = random.Next(123456, 987654).ToString();
+
+        OTP_Tbl otp = new OTP_Tbl()
         {
-            UserId = id,
-            FirstTimeCode = code,
-            FirstLoginTime = DateTime.Now,
-            IsFirstLogin = true
+            UserId = user.UserId,
+            Otp_Code = code,
+            Type = type,
+            Expire_Date = DateTime.Now.AddMinutes(10)
         };
 
-        db.FirstTimeLogin.Add(item);
-        db.SaveChanges();
+        dbcontext.OTP_Codes.Add(otp);
+        int result = await dbcontext.SaveChangesAsync();
+        return result > 0 ? code : null;
     }
 
-    public string CreateAccount(User user)
+    public async Task<User_Tbl?> GetUserbyPhnumAsync(string number)
     {
-        string code = GenerateCode().ToString();
-        db.Users.Add(user);
-        db.SaveChanges();
 
-        GenerateOneLogInCode(user.UserId, code);
-        return code;
-    }
-    public string GetOTP(string number) {
+        var user = await dbcontext.Users.Where(x => x.Phone_Number == number).FirstOrDefaultAsync();
+        return user;
 
-        var item = GetUserByPhoneNumber(number);
-        return GetOTP(item.UserId);
-    
     }
 
-    public string GetOTP(int id)
+   public async Task<int> SetupPinAsync(User_Tbl user, string pin)
     {
-        string code = GenerateCode().ToString();
-        var firstTimeRecord = db.FirstTimeLogin.FirstOrDefault(x => x.UserId == id);
-
-        if (firstTimeRecord is null)
+        Pin_tbl item = new Pin_tbl()
         {
-            Console.WriteLine("No data for FirstTimeLogin");
-            return string.Empty;
-        }
-
-        OTPCode otpItem = new OTPCode()
-        {
-            UserId = id,
-            OtpCodeValue = code,
-            OtpExpiryDate = DateTime.Now.AddHours(24),
-            OtpStatus = "active",
-            OtpType = "Login"
+            UserId = user.UserId,
+            PinCode = pin
         };
 
-        if (firstTimeRecord.IsFirstLogin)
-        {
-            db.OtpCodes.Add(otpItem);
-            Console.WriteLine("FirstTimeLogin True");
-        }
-        else
-        {
-            var existingOtp = db.OtpCodes.AsNoTracking().FirstOrDefault(x => x.UserId == id);
-            if (existingOtp != null)
-            {
-                otpItem.OtpId = existingOtp.OtpId;
-                db.OtpCodes.Update(otpItem);
-            }
-            else
-            {
-                db.OtpCodes.Add(otpItem);
-            }
-
-            Console.WriteLine("FirstTimeLogin False");
-        }
-
-        int result = db.SaveChanges();
-        return result > 0 ? code : "Concurrency issue: No rows affected.";
+        dbcontext.Pin_Codes.Add(item);
+        int result = await dbcontext.SaveChangesAsync();
+        return result;
     }
 
-    public string LoginFirstTime(int id, string code,string pin)
+    public async Task<int> Change_PinAsync(User_Tbl user, string newpin)
     {
-        var item = db.FirstTimeLogin.AsNoTracking().FirstOrDefault(x => x.UserId == id && x.FirstTimeCode == code)!;
-        //if (item is null)
-        //{
-        //    //Console.WriteLine("No Data");
-        //    return "No User";
-        //}
-
-        db.Entry(item).State = EntityState.Detached;
-        item.IsFirstLogin = false;
-        db.Attach(item);
-        
-        db.Entry(item).State = EntityState.Modified;
+        var pinItem = dbcontext.Pin_Codes.AsNoTracking().Where(x => x.UserId == user.UserId).FirstOrDefault();
 
 
-        int result = db.SaveChanges();
+        pinItem.PinCode = newpin;
 
-        setupPin(id, pin);
+        dbcontext.Entry(pinItem).State = EntityState.Modified;
+        int result = await dbcontext.SaveChangesAsync();
 
-        return result > 0 ? GetOTP(id) : string.Empty;
+        return result;
+
     }
 
-    public void setupPin(int id, string pin)
+    public async Task<bool> CheckCodeAsync(int id, string code)
     {
-        var user = db.Users.FirstOrDefault(x => x.UserId == id);
-        if (user is null)
+        bool result = await dbcontext.FirstTimeLogins.AnyAsync(x => x.UserId == id && x.Login_code == code);
+        return result;
+
+
+    }
+    public async Task<bool> CheckOTPAsync(int id, string code, string type)
+    {
+        bool result = await dbcontext.OTP_Codes.AnyAsync(x => x.UserId == id && x.Otp_Code == code && x.Type == type);
+        return result;
+
+    }
+    public async Task<bool> CheckPinAsyn(int id, string pin)
+    {
+        bool result = await dbcontext.Pin_Codes.AnyAsync(x => x.UserId == id && x.PinCode == pin);
+        return result;
+
+    }
+
+    public async Task<int> ChangePhoneNumberAsync(int id, string number)
+    {
+
+
+        var user = await dbcontext.Users.AsNoTracking().Where(x => x.UserId == id).FirstOrDefaultAsync()!;
+
+        user.Phone_Number = number;
+
+        dbcontext.Entry(user).State = EntityState.Modified;
+        int result = await dbcontext.SaveChangesAsync();
+        return result;
+
+    }
+
+    public async Task<bool> MoreBalanceAsync(User_Tbl sender, double amount)
+    {
+        var user = await dbcontext.Users.FirstOrDefaultAsync(x => x.UserId == sender.UserId);
+
+        bool result = user!.Balance > amount;
+
+        return result;
+
+
+    }
+
+    public async Task<int> DeductBalanceAsync(User_Tbl sender, double amount)
+    {
+        var user = await dbcontext.Users.AsNoTracking().Where(x => x.UserId == sender.UserId).FirstOrDefaultAsync();
+
+        user.Balance -= amount;
+
+        dbcontext.Entry(user).State = EntityState.Modified;
+        int result = await dbcontext.SaveChangesAsync();
+
+        return result;
+    }
+
+    public async Task<int> AddBalanceAsync(User_Tbl sender, double amount)
+    {
+        var user = await dbcontext.Users.AsNoTracking().Where(x => x.UserId == sender.UserId).FirstOrDefaultAsync();
+
+        user.Balance += amount;
+
+        dbcontext.Entry(user).State = EntityState.Modified;
+        int result = await dbcontext.SaveChangesAsync();
+
+        return result;
+    }
+
+    public async Task<Transaction_Tbl?> CreateTransactionAsync(User_Tbl sender, User_Tbl receiver, double Amount, string note, string type)
+    {
+        Transaction_Tbl transaction = new Transaction_Tbl()
         {
-            //Console.WriteLine("No Data");
-            return;
-        }
-        
-        Pincode item = new Pincode() { 
-        
-        UserId=id,
-        PinCode=pin
+            senderId = sender.UserId,
+            receiverId = receiver.UserId,
+            amount = Amount,
+            Notes = note,
+            Transaction_Date = DateTime.Now,
+            Transaction_Type = type,
+
+
+
         };
-        db.PinCodes.Add(item);
-        //user.pin = pin;
-        //db.Entry(user).State = EntityState.Modified;
-        db.SaveChanges();
-        //Console.WriteLine("Pin set up");
-    }
 
-    public string ChangePin(int id, string oldPin, string newPin)
+        dbcontext.Transactions.Add(transaction);
+        int result = await dbcontext.SaveChangesAsync();
+        if (result == 0) { return null; }
+        return transaction;
+
+    }
+    public async Task<Transaction_Tbl?> CreateTransactionAsync(User_Tbl sender, double Amount, string note, string type)
     {
-        if (!checkPin(id, oldPin))
+        Transaction_Tbl transaction = new Transaction_Tbl()
         {
-            //Console.WriteLine("Pin Error");
-            return "Wrong Old Pin Error";
-        }
+            senderId = sender.UserId,
 
-        var pinItem = db.PinCodes.AsNoTracking().FirstOrDefault(x => x.UserId == id);
-        //if (user is null)
-        //{
-        //    Console.WriteLine("No Data");
-        //    return;
-        //}
+            amount = Amount,
+            Notes = note,
+            Transaction_Date = DateTime.Now,
+            Transaction_Type = type,
 
-        pinItem.PinCode = newPin;
-        db.Entry(pinItem).State = EntityState.Modified;
-        db.SaveChanges();
-       return "Pin changed successful";
+
+
+        };
+
+        dbcontext.Transactions.Add(transaction);
+        int result = await dbcontext.SaveChangesAsync();
+        if (result == 0) { return null; }
+        return transaction;
+
     }
 
-    public bool hasUser(int id)
+    public async Task<List<Transaction_Tbl>> GetTransactionHistoryAsync(int userId)
     {
-        return db.Users.Any(x => x.UserId == id);
+        var list = await dbcontext.Transactions.Where(x => x.senderId == userId || x.receiverId == userId).ToListAsync();
+        return list;
+
+
+
     }
 
-    public User? login(int id, string otp)
-    {
-        var userExist = db.Users.FirstOrDefault(x => x.UserId == id);
-        //if (userExist is null)
-        //{
-        //    Console.WriteLine("No Data");
-        //    return null;
-        //}
-
-        var otpItem = db.OtpCodes.AsNoTracking().FirstOrDefault(x => x.UserId == id && x.OtpCodeValue == otp && x.OtpExpiryDate > DateTime.Now && x.OtpType == "Login") ;
-        db.Entry(otpItem).State = EntityState.Detached;
-        if (otpItem is not null)
-        {
-            
-            otpItem.OtpStatus = "Expired";
-           
-           
-           
-        }
-        else
-        {
-            Console.WriteLine("Invalid OTP");
-            return null;
-        }
-
-
-        db.Attach(otpItem);
-        db.Entry(otpItem).State = EntityState.Modified;
-        db.SaveChanges();
-        Console.WriteLine("Login Success");
-        return userExist;
-    }
-
-    public double getBalance(int id)
-    {
-        return db.Users.Where(x => x.UserId == id).Select(x => x.Balance).FirstOrDefault();
-    }
-
-    public bool hasMoreBalance(int id, double amount)
-    {
-        var user = db.Users.FirstOrDefault(x => x.UserId == id);
-        bool hasmore = user is not null && user.Balance > amount ;
-        return hasmore;
-    }
-
-    public void createTransaction(Transaction item)
-    {
-        db.Add(item);
-        db.SaveChanges();
-    }
-
-    public bool checkPin(int id, string pin)
-    {
-        return db.PinCodes.Any(x => x.UserId == id && x.PinCode == pin);
-    }
-
-    public string getReceiptContent(Transaction transaction)
+    public string getReceiptContent(Transaction_Tbl transaction)
     {
         var transactionSummary = new
         {
-            transaction.SenderId,
-            transaction.ReceiverId,
-            transaction.TransactionType,
-            transaction.Amount,
-            transaction.TransactionTime
+            transaction.senderId,
+            transaction.receiverId,
+            transaction.Transaction_Type,
+            transaction.amount,
+            transaction.Transaction_Date
         };
         return JsonConvert.SerializeObject(transactionSummary);
     }
-
-    public void createReceipt(Transaction transaction)
-    {
+    public async Task<List<Receipt?>?> createReceiptAsync(Transaction_Tbl transaction)
+    {   
+        var ReceiptList =   new List<Receipt?>();
         Receipt senderReceipt = new Receipt()
         {
-            TransactionId = transaction.TransactionId,
-            UserID = transaction.SenderId,
-            IssuedDate = transaction.TransactionTime,
+            Transaction_Id = transaction.Transaction_Id,
+            User_ID = transaction.senderId,
+            IssuedDate = transaction.Transaction_Date,
             ReceiptContent = getReceiptContent(transaction),
         };
-        db.Receipts.Add(senderReceipt);
-
-        if (transaction.ReceiverId is not null)
+        dbcontext.ReceiptRecords.Add(senderReceipt);
+        ReceiptList.Add(senderReceipt);
+        if (transaction.receiverId is not null)
         {
             Receipt receiverReceipt = new Receipt()
             {
-                TransactionId = transaction.TransactionId,
-                UserID = Convert.ToInt32(transaction.ReceiverId),
-                IssuedDate = transaction.TransactionTime,
+                Transaction_Id = transaction.Transaction_Id,
+                User_ID = Convert.ToInt32(transaction.receiverId),
+                IssuedDate = transaction.Transaction_Date,
                 ReceiptContent = getReceiptContent(transaction),
             };
-            db.Receipts.Add(receiverReceipt);
+            dbcontext.ReceiptRecords.Add(receiverReceipt);
+            ReceiptList.Add(receiverReceipt);
         }
 
-        db.SaveChanges();
+        int result = await dbcontext.SaveChangesAsync();
+
+        if (result == 0) { return null; }
+        return ReceiptList;
     }
 
-    public Transaction? BalanceTransfer(int senderId,  int receiverId, double amount, string note)
+    public async Task<List<Receipt?>?> GetReceiptRecords(int id)
     {
-        //if (senderId == receiverId || !checkPin(senderId, pin) || !hasUser(receiverId) || !hasMoreBalance(senderId, amount))
-        //{
-        //    Console.WriteLine("Transaction error");
-        //    return null;
-        //}
-
-        var sender = db.Users.FirstOrDefault(x => x.UserId == senderId)!;
-        sender.Balance -= amount;
+        var ReceiptList =await dbcontext.ReceiptRecords.Where(x=>x.User_ID==id).ToListAsync();
+        if(ReceiptList is null) { return null; }
+        return ReceiptList!;
 
 
-        //db.Entry(sender).State = EntityState.Modified;
-
-        var receiver = db.Users.FirstOrDefault(x => x.UserId == receiverId)!;
-        receiver.Balance += amount;
-
-
-        //db.Entry(receiver).State = EntityState.Modified;
-        //db.Entry(sender).State = EntityState.Detached;
-        //db.Entry(receiver).State = EntityState.Detached;
-
-
-
-
-        //db.Attach(sender);
-        //db.Attach(receiver);
-
-
-
-
-
-
-        int result = db.SaveChanges();
-        if (result > 0)
-        {
-            Transaction transaction = new Transaction()
-            {
-                SenderId = senderId,
-                ReceiverId = receiverId,
-                Amount = amount,
-                BalanceAfter = sender.Balance,
-                TransactionTime = DateTime.Now,
-                Status = "Completed",
-                TransactionType = "Transfer",
-                Note = note
-            };
-            createTransaction(transaction);
-            createReceipt(transaction);
-            return transaction;
-        }
-
-        Console.WriteLine("Transfer failed");
-        return null;
-    }
-
-    public List<Transaction>? getTransactionHistory(int id)
-    {
-        if (!hasUser(id))
-        {
-            Console.WriteLine("No Data");
-            return null;
-        }
-
-        return db.Transactions.Where(x => x.ReceiverId == id || x.SenderId == id).ToList();
-    }
-
-    public List<Receipt> getReceiptRecord(int id)
-    {
-        if (!hasUser(id))
-        {
-            Console.WriteLine("No Data");
-            return null;
-        }
-
-        return db.Receipts.Where(x => x.UserID == id).ToList();
-    }
-
-    public Transaction depositMoney(int id, double amount, string note)
-    {
-        var user = db.Users.FirstOrDefault(x => x.UserId == id)!;
-
-       // db.Entry(user).State = EntityState.Detached;
-        user.Balance += amount;
-        //db.Attach(user);
-
-
-        db.Entry(user).State = EntityState.Modified;
-        db.SaveChanges();
-
-        Transaction transaction = new Transaction()
-        {
-            SenderId = id,
-            Amount = amount,
-            BalanceAfter = user.Balance,
-            TransactionType = "Deposit",
-            Status = "Complete",
-            TransactionTime = DateTime.Now,
-            Note = note
-        };
-
-        createTransaction(transaction);
-        createReceipt(transaction);
-        return transaction;
-    }
-
-    public Transaction WithDrawMoney(int id, double amount, string note)
-    {
-        var user = db.Users.FirstOrDefault(x => x.UserId == id);
-
-        //db.Entry(user).State = EntityState.Detached;
-        user.Balance -= amount;
-        //db.Attach(user);
-
-        db.Entry(user).State = EntityState.Modified;
-        db.SaveChanges();
-
-        Transaction transaction = new Transaction()
-        {
-            SenderId = id,
-            Amount = amount,
-            BalanceAfter = user.Balance,
-            TransactionType = "Withdraw",
-            Status = "Complete",
-            TransactionTime = DateTime.Now,
-            Note = note
-        };
-
-        createTransaction(transaction);
-        createReceipt(transaction);
-        return transaction;
-    }
-
-    public string ChangePhoneNumber(int userId, string newPhoneNumber)
-    {
-        var user = db.Users.FirstOrDefault(x => x.UserId == userId)!;
-        //if (user is null)
-        //{
-        //    Console.WriteLine("User not found");
-        //    return;
-        //}
-
-        user.PhoneNumber = newPhoneNumber;
-        db.Entry(user).State = EntityState.Modified;
-        db.SaveChanges();
-        // Console.WriteLine("Phone number updated successfully.");
-
-        return "Phone number updated successfully.";
-    }
-
-    public string ForgetPin(int userId)
-    {
-        var user = db.Users.FirstOrDefault(x => x.UserId == userId);
-        //if (user is null)
-        //{
-        //    Console.WriteLine("User not found.");
-        //    return string.Empty;
-        //}
-
-        string resetCode = GenerateCode().ToString();
-
-        OTPCode otpItem = new OTPCode()
-        {
-            UserId = userId,
-            OtpCodeValue = resetCode,
-            OtpExpiryDate = DateTime.Now.AddMinutes(10),
-            OtpStatus = "Active",
-            OtpType = "ResetPin"
-        };
-
-        db.OtpCodes.Add(otpItem);
-        db.SaveChanges();
-        return resetCode;
-    }
-
-    public string ResetPin(int userId, string resetCode, string newPin)
-    {
-        var otpRecord = db.OtpCodes.AsNoTracking().FirstOrDefault(x => x.UserId == userId && x.OtpCodeValue == resetCode && x.OtpExpiryDate > DateTime.Now && x.OtpType == "ResetPin");
-
-        if (otpRecord is null)
-        {
-           // Console.WriteLine("Invalid or expired reset code.");
-            return "Invalid or expired reset code.";
-        }
-
-        var pinItem = db.PinCodes.AsNoTracking().FirstOrDefault(x => x.UserId == userId);
-        //if (user == null)
-        //{
-        //    Console.WriteLine("User not found.");
-        //    return;
-        //}
-
-        pinItem.PinCode = newPin;
-        db.Entry(pinItem).State = EntityState.Modified;
-
-        otpRecord.OtpStatus = "Expired";
-        db.Entry(otpRecord).State = EntityState.Modified;
-
-        db.SaveChanges();
-        //Console.WriteLine("Pin reset successfully.");
-        return "Pin reset successfully.";
-    }
-
-    public User? GetUserByPhoneNumber(string phoneNumber)
-    {   var item = db.Users.Where(x=>x.PhoneNumber == phoneNumber).FirstOrDefault();
-        return item;
     }
 }
 

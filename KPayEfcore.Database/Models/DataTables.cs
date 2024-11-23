@@ -11,25 +11,31 @@ namespace KPayEfcore.Database.Models;
     public partial class User_Tbl
     {
         [Key]
-        public int UserId { get; set; }
-        //[Required]
-        public string Full_Name { get; set; }
-        public double Balance { get; set; }
+    [Column("userId")]
+    public int UserId { get; set; }
+    //[Required]
+    [Column("userName")]
+    public string Full_Name { get; set; }
+    [Column("balance")]
+    public double Balance { get; set; }
+    [Column("phoneNumber")]
+    public string Phone_Number { get; set; }
 
-        public string Phone_Number { get; set; }
+    [Column("createdDate")] 
+    public DateTime CreatedDate { get; set; }
 
 
 
-
-
-    }
+}
 
     [Table("Pin")]
     public partial class Pin_tbl
     {
         [Key]
-        public int UserId { get; set; }
-        public string PinCode { get; set; } = "";
+    [Column("userId")]
+    public int UserId { get; set; }
+    [Column("pinCode")]
+    public string PinCode { get; set; } = "";
 
 
     }
@@ -38,14 +44,16 @@ namespace KPayEfcore.Database.Models;
     public partial class OTP_Tbl
     {
         [Key]
-        public int Otp_Id { get; set; }
-        public int UserId { get; set; }
-
-        public string Otp_Code { get; set; }
-
-        public string Type { get; set; }
-
-        public DateTime Expire_Date { get; set; }
+    [Column("otpId")]
+    public int Otp_Id { get; set; }
+    [Column("userId")]
+    public int UserId { get; set; }
+    [Column("otpCode")]
+    public string Otp_Code { get; set; }
+    [Column("otpType")]
+    public string Type { get; set; }
+    [Column("otpExpiryDate")]
+    public DateTime Expire_Date { get; set; }
 
 
     }
@@ -67,19 +75,43 @@ namespace KPayEfcore.Database.Models;
     public partial class Transaction_Tbl
     {
         [Key]
-        public int Transaction_Id { get; set; }
-        public int senderId { get; set; }
-        public int? receiverId { get; set; } = null;
+    [Column("transactionId")]
+    public int Transaction_Id { get; set; }
+    [Column("senderId")]
+    public int senderId { get; set; }
+    [Column("receiverId")]
+    public int? receiverId { get; set; } = null;
+    [Column("amount")]
+    public double amount { get; set; }
+    [Column("transactionTime")]
+    public DateTime Transaction_Date { get; set; }
+    [Column("transactionType")]
+    public string Transaction_Type { get; set; }
+    [Column("notes")]
+    public string Notes { get; set; }
 
-        public double amount { get; set; }
+    [Column("balanceAfter")]  
 
-        public DateTime Transaction_Date { get; set; }
-
-        public string Transaction_Type { get; set; }
-
-        public string Notes { get; set; }
+    public double BalanceAfter { get; set; }
 
 
+}
 
-    }
+[Table("Receipts")]  
+public partial class Receipt
+{
+    [Column("receiptId")]  
+    public int Receipt_Id { get; set; }
 
+    [Column("transactionId")]  
+    public int Transaction_Id { get; set; }
+
+    [Column("userId")]  
+    public int User_ID { get; set; }
+
+    [Column("receiptContent")]  
+    public string ReceiptContent { get; set; } = null!;
+
+    [Column("issuedDate")] 
+    public DateTime IssuedDate { get; set; }
+}
