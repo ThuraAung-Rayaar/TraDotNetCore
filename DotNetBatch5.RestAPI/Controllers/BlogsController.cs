@@ -53,7 +53,7 @@ namespace DotNetBatch5.RestAPI.Controllers
             _dbContext.SaveChanges();
 
             
-            return Ok(); }
+            return Ok("Success"); }
 
 
         [HttpPatch("{id}")]
@@ -84,7 +84,7 @@ namespace DotNetBatch5.RestAPI.Controllers
             _dbContext.SaveChanges();
 
 
-            return Ok();}
+            return Ok("Success");}
 
 
 

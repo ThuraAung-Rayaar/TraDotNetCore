@@ -13,5 +13,5 @@ public partial class TblBlog
 
     public string BlogContent { get; set; } = null!;
 
-    public bool? DeleteFlag { get; set; }
+    public bool? DeleteFlag { get; set; } =false;
 }
