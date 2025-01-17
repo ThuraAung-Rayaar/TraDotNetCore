@@ -7,276 +7,271 @@ public static class KpayEndPoints
 {
     public static void MapKPayEndpoints(this IEndpointRouteBuilder app)
     {
-        KpayServices _services = new KpayServices();
+        /* KpayServices _services = new KpayServices();
 
-        app.MapPost("/api/create-wallet-user", (User_Tbl user) => {
+         app.MapPost("/api/create-wallet-user", (User_Tbl user) => {
 
-            #region User Creation
-            int result = _services.Create_User(user);
-            #endregion
+            var response = 
 
-            #region Get Firt Time Login Code
-            var code = _services.Generate_First_TimeCode(user);
-            #endregion
+             return (result > 0 && code is not null) ? Results.Ok(code) : Results.BadRequest("Error User Entry");
 
-            return (result > 0 && code is not null) ? Results.Ok(code) : Results.BadRequest("Error User Entry");
 
 
+         }).WithName("Create_Wallet_User").WithOpenApi();
 
-        }).WithName("Create_Wallet_User").WithOpenApi();
 
 
+         app.MapPost("/api/first-time-login/{number}", (string number, string code, string newPin) => {
 
-        app.MapPost("/api/first-time-login/{number}", (string number, string code, string newPin) => {
+             #region Check Phone Number
+             var user = _services.GetUserbyPhnum(number);
+             if (user is null) return Results.NotFound("Phone num not found");
 
-            #region Check Phone Number
-            var user = _services.GetUserbyPhnum(number);
-            if (user is null) return Results.NotFound("Phone num not found");
+             #endregion
 
-            #endregion
+             #region Check  Login Code
+             var checkCode = _services.CheckCode(user.UserId, code);
+             if (!checkCode) return Results.NotFound("Login Code not found");
+             #endregion
 
-            #region Check  Login Code
-            var checkCode = _services.CheckCode(user.UserId, code);
-            if (!checkCode) return Results.NotFound("Login Code not found");
-            #endregion
+             #region Setup New Pin for User
 
-            #region Setup New Pin for User
+             int pinResult = _services.setupPin(user, newPin);
+             if (pinResult == 0) return Results.BadRequest("Error Pin Set up");
 
-            int pinResult = _services.setupPin(user, newPin);
-            if (pinResult == 0) return Results.BadRequest("Error Pin Set up");
+             #endregion
 
-            #endregion
+             return Results.Ok("Pin Steup Complete");
 
-            return Results.Ok("Pin Steup Complete");
 
 
+         }).WithName("First_Time_Login").WithOpenApi();
 
-        }).WithName("First_Time_Login").WithOpenApi();
+         app.MapGet("/api/GetOTP/{number}", (string number) => {
 
-        app.MapGet("/api/GetOTP/{number}", (string number) => {
+             #region check Phone Number
+             var user = _services.GetUserbyPhnum(number);
+             if (user is null) return Results.NotFound("Phone num not found");
+             #endregion
 
-            #region check Phone Number
-            var user = _services.GetUserbyPhnum(number);
-            if (user is null) return Results.NotFound("Phone num not found");
-            #endregion
+             #region Request OTP code for Login
+             var code = _services.GetOtp(user, "Login");
+             #endregion
 
-            #region Request OTP code for Login
-            var code = _services.GetOtp(user, "Login");
-            #endregion
+             return Results.Ok($"OTP code :{code}");
 
-            return Results.Ok($"OTP code :{code}");
 
+         }).WithName("Get_OTP").WithOpenApi();
 
-        }).WithName("Get_OTP").WithOpenApi();
 
+         app.MapGet("/api/login/{number}", (string number, string code) => {
 
-        app.MapGet("/api/login/{number}", (string number, string code) => {
+             #region Check Phone Number
+             var user = _services.GetUserbyPhnum(number);
+             if (user is null) return Results.NotFound("Phone num not found");
+             #endregion
 
-            #region Check Phone Number
-            var user = _services.GetUserbyPhnum(number);
-            if (user is null) return Results.NotFound("Phone num not found");
-            #endregion
+             #region Check OTP code
+             var checkCode = _services.CheckOTP(user.UserId, code, "Login");
+             if (!checkCode) return Results.NotFound("OTP Code not found");
 
-            #region Check OTP code
-            var checkCode = _services.CheckOTP(user.UserId, code, "Login");
-            if (!checkCode) return Results.NotFound("OTP Code not found");
+             #endregion
 
-            #endregion
 
+             return Results.Ok(user);
 
-            return Results.Ok(user);
 
 
+         }).WithName("Login").WithOpenApi();
 
-        }).WithName("Login").WithOpenApi();
+         app.MapGet("/api/balance/get/{number}", (string number) => {
 
-        app.MapGet("/api/balance/get/{number}", (string number) => {
+             #region Get  User
 
-            #region Get  User
+             var user = _services.GetUserbyPhnum(number);
+             if (user is null) return Results.NotFound("Phone num not found");
+             #endregion
 
-            var user = _services.GetUserbyPhnum(number);
-            if (user is null) return Results.NotFound("Phone num not found");
-            #endregion
 
 
 
 
+             return Results.Ok($" BAlance :{user.Balance}");
 
-            return Results.Ok($" BAlance :{user.Balance}");
 
 
+         }).WithName("Balance").WithOpenApi();
 
-        }).WithName("Balance").WithOpenApi();
+         app.MapGet("/api/pin/forget/{number}", (string number) => {
+             var user = _services.GetUserbyPhnum(number);
+             if (user is null) return Results.NotFound("Phone num not found");
 
-        app.MapGet("/api/pin/forget/{number}", (string number) => {
-            var user = _services.GetUserbyPhnum(number);
-            if (user is null) return Results.NotFound("Phone num not found");
 
+             var resetCode = _services.GetOtp(user, "Reset");
 
-            var resetCode = _services.GetOtp(user, "Reset");
+             return Results.Ok($"Pin Reset Code:{resetCode}");
 
-            return Results.Ok($"Pin Reset Code:{resetCode}");
 
+         }).WithName("Forget Pin").WithOpenApi();
 
-        }).WithName("Forget Pin").WithOpenApi();
+         app.MapPatch("/api/pin/reset/{number}", (string number, string resetcode, string newPin) => {
+             var user = _services.GetUserbyPhnum(number);
+             if (user is null) return Results.NotFound("Phone num not found");
 
-        app.MapPatch("/api/pin/reset/{number}", (string number, string resetcode, string newPin) => {
-            var user = _services.GetUserbyPhnum(number);
-            if (user is null) return Results.NotFound("Phone num not found");
+             var checkCode = _services.CheckOTP(user.UserId, resetcode, "Reset");
+             if (!checkCode) return Results.NotFound("OTP Code not found");
 
-            var checkCode = _services.CheckOTP(user.UserId, resetcode, "Reset");
-            if (!checkCode) return Results.NotFound("OTP Code not found");
+             var pinResult = _services.Change_Pin(user, newPin);
+             if (pinResult == 0) return Results.BadRequest(" Pin Changing Error");
 
-            var pinResult = _services.Change_Pin(user, newPin);
-            if (pinResult == 0) return Results.BadRequest(" Pin Changing Error");
 
 
+             return Results.Ok($"Pin Change successful");
 
-            return Results.Ok($"Pin Change successful");
 
+         }).WithName("reset Pin").WithOpenApi();
 
-        }).WithName("reset Pin").WithOpenApi();
+         app.MapPatch("/api/pin/change/{number}", (string number, string oldPin, string newPin) => {
 
-        app.MapPatch("/api/pin/change/{number}", (string number, string oldPin, string newPin) => {
+             var user = _services.GetUserbyPhnum(number);
+             if (user is null) return Results.NotFound("Phone num not found");
 
-            var user = _services.GetUserbyPhnum(number);
-            if (user is null) return Results.NotFound("Phone num not found");
+             var checkpin = _services.CheckPin(user.UserId, oldPin);
+             if (!checkpin) return Results.BadRequest("Wrong Pin Error");
 
-            var checkpin = _services.CheckPin(user.UserId, oldPin);
-            if (!checkpin) return Results.BadRequest("Wrong Pin Error");
+             var pinResult = _services.Change_Pin(user, newPin);
+             if (pinResult == 0) return Results.BadRequest(" Pin Changing Error");
 
-            var pinResult = _services.Change_Pin(user, newPin);
-            if (pinResult == 0) return Results.BadRequest(" Pin Changing Error");
+             return Results.Ok("Pin Change Success");
 
-            return Results.Ok("Pin Change Success");
+         }).WithName("Change Pin").WithOpenApi();
 
-        }).WithName("Change Pin").WithOpenApi();
+         app.MapPatch("/api/Phone-number/change/{number}", (string oldNumber, string newNumber, string pin) => {
 
-        app.MapPatch("/api/Phone-number/change/{number}", (string oldNumber, string newNumber, string pin) => {
+             var user = _services.GetUserbyPhnum(oldNumber);
+             if (user is null) return Results.NotFound("Phone num not found");
 
-            var user = _services.GetUserbyPhnum(oldNumber);
-            if (user is null) return Results.NotFound("Phone num not found");
+             var checkpin = _services.CheckPin(user.UserId, pin);
+             if (!checkpin) return Results.BadRequest("Wrong Pin Error");
 
-            var checkpin = _services.CheckPin(user.UserId, pin);
-            if (!checkpin) return Results.BadRequest("Wrong Pin Error");
+             var Result = _services.changePhoneNumber(user.UserId, newNumber);
+             if (Result == 0) return Results.BadRequest(" Pin Changing Error");
 
-            var Result = _services.changePhoneNumber(user.UserId, newNumber);
-            if (Result == 0) return Results.BadRequest(" Pin Changing Error");
+             return Results.Ok("Phone NUmber Change Success");
 
-            return Results.Ok("Phone NUmber Change Success");
+         }).WithName("Change Phone Number").WithOpenApi();
 
-        }).WithName("Change Phone Number").WithOpenApi();
+         app.MapPost("/api/balance/transfer/{senderNumber}/to/{receiverNumber}",
+             (string senderNumber, string receiverNumber, double amount, string pin, string note) => {
 
-        app.MapPost("/api/balance/transfer/{senderNumber}/to/{receiverNumber}",
-            (string senderNumber, string receiverNumber, double amount, string pin, string note) => {
+                 if (senderNumber == receiverNumber) Results.BadRequest("Same Phone NUmber");
 
-                if (senderNumber == receiverNumber) Results.BadRequest("Same Phone NUmber");
+                 var sender = _services.GetUserbyPhnum(senderNumber);
+                 if (sender is null) return Results.NotFound("sender num not found");
 
-                var sender = _services.GetUserbyPhnum(senderNumber);
-                if (sender is null) return Results.NotFound("sender num not found");
+                 var receiver = _services.GetUserbyPhnum(receiverNumber);
+                 if (receiver is null) return Results.NotFound("receiver num not found");
 
-                var receiver = _services.GetUserbyPhnum(receiverNumber);
-                if (receiver is null) return Results.NotFound("receiver num not found");
 
+                 var checkpin = _services.CheckPin(sender.UserId, pin);
+                 if (!checkpin) return Results.BadRequest("Wrong Pin Error");
 
-                var checkpin = _services.CheckPin(sender.UserId, pin);
-                if (!checkpin) return Results.BadRequest("Wrong Pin Error");
+                 var moreBalance = _services.MoreBalance(sender, amount + 10000);
+                 if (!moreBalance) return Results.BadRequest("Balance not Enough");
 
-                var moreBalance = _services.MoreBalance(sender, amount + 10000);
-                if (!moreBalance) return Results.BadRequest("Balance not Enough");
+                 var resultSender = _services.DeductBalance(sender, amount);
 
-                var resultSender = _services.DeductBalance(sender, amount);
+                 var resultReceiver = _services.AddBalance(sender, amount);
 
-                var resultReceiver = _services.AddBalance(sender, amount);
+                 if (resultSender == 0 || resultReceiver == 0) return Results.BadRequest("Error Transaction");
 
-                if (resultSender == 0 || resultReceiver == 0) return Results.BadRequest("Error Transaction");
+                 var transaction = _services.CreateTransaction(sender, receiver, amount, note, "Transfer");
+                 if (transaction is null) return Results.BadRequest("Error Creating Transaction history");
 
-                var transaction = _services.CreateTransaction(sender, receiver, amount, note, "Transfer");
-                if (transaction is null) return Results.BadRequest("Error Creating Transaction history");
+                 return Results.Ok("Transaction Completed");
 
-                return Results.Ok("Transaction Completed");
+             })
+             .WithName("Transfer").WithOpenApi();
 
-            })
-            .WithName("Transfer").WithOpenApi();
+         app.MapPost("/api/balance/Deposit/bank/from/{receiverNumber}",
+             (string senderNumber, double amount, string pin, string note) => {
 
-        app.MapPost("/api/balance/Deposit/bank/from/{receiverNumber}",
-            (string senderNumber, double amount, string pin, string note) => {
+                 //if (senderNumber == receiverNumber) Results.BadRequest("Same Phone NUmber");
 
-                //if (senderNumber == receiverNumber) Results.BadRequest("Same Phone NUmber");
+                 var sender = _services.GetUserbyPhnum(senderNumber);
+                 if (sender is null) return Results.NotFound("sender num not found");
 
-                var sender = _services.GetUserbyPhnum(senderNumber);
-                if (sender is null) return Results.NotFound("sender num not found");
+                 //var receiver = _services.GetUserbyPhnum(receiverNumber);
+                 //if (receiver is null) return Results.NotFound("receiver num not found");
 
-                //var receiver = _services.GetUserbyPhnum(receiverNumber);
-                //if (receiver is null) return Results.NotFound("receiver num not found");
 
+                 var checkpin = _services.CheckPin(sender.UserId, pin);
+                 if (!checkpin) return Results.BadRequest("Wrong Pin Error");
 
-                var checkpin = _services.CheckPin(sender.UserId, pin);
-                if (!checkpin) return Results.BadRequest("Wrong Pin Error");
+                 var moreBalance = _services.MoreBalance(sender, amount + 10000);
+                 if (!moreBalance) return Results.BadRequest("Balance not Enough");
 
-                var moreBalance = _services.MoreBalance(sender, amount + 10000);
-                if (!moreBalance) return Results.BadRequest("Balance not Enough");
+                 var resultSender = _services.DeductBalance(sender, amount);
 
-                var resultSender = _services.DeductBalance(sender, amount);
+                 // var resultReceiver = _services.AddBalance(sender, amount);
 
-                // var resultReceiver = _services.AddBalance(sender, amount);
+                 if (resultSender == 0) return Results.BadRequest("Error Deposit");
 
-                if (resultSender == 0) return Results.BadRequest("Error Deposit");
+                 var transaction = _services.CreateTransaction(sender, amount, note, "Deposit");
+                 if (transaction is null) return Results.BadRequest("Error Creating Transaction history");
 
-                var transaction = _services.CreateTransaction(sender, amount, note, "Deposit");
-                if (transaction is null) return Results.BadRequest("Error Creating Transaction history");
+                 return Results.Ok("Money withdraw successful");
 
-                return Results.Ok("Money withdraw successful");
+             })
+             .WithName("Deposit").WithOpenApi();
 
-            })
-            .WithName("Deposit").WithOpenApi();
+         app.MapPost("/api/balance/Withdraw/Bank/to/{senderNumber}",
+             (string senderNumber, double amount, string pin, string note) => {
 
-        app.MapPost("/api/balance/Withdraw/Bank/to/{senderNumber}",
-            (string senderNumber, double amount, string pin, string note) => {
+                 //if (senderNumber == receiverNumber) Results.BadRequest("Same Phone NUmber");
 
-                //if (senderNumber == receiverNumber) Results.BadRequest("Same Phone NUmber");
+                 var sender = _services.GetUserbyPhnum(senderNumber);
+                 if (sender is null) return Results.NotFound("sender num not found");
 
-                var sender = _services.GetUserbyPhnum(senderNumber);
-                if (sender is null) return Results.NotFound("sender num not found");
+                 //var receiver = _services.GetUserbyPhnum(receiverNumber);
+                 //if (receiver is null) return Results.NotFound("receiver num not found");
 
-                //var receiver = _services.GetUserbyPhnum(receiverNumber);
-                //if (receiver is null) return Results.NotFound("receiver num not found");
 
+                 var checkpin = _services.CheckPin(sender.UserId, pin);
+                 if (!checkpin) return Results.BadRequest("Wrong Pin Error");
 
-                var checkpin = _services.CheckPin(sender.UserId, pin);
-                if (!checkpin) return Results.BadRequest("Wrong Pin Error");
+                 //var moreBalance = _services.MoreBalance(sender, amount + 10000);
+                 //if (!moreBalance) return Results.BadRequest("Balance not Enough");
 
-                //var moreBalance = _services.MoreBalance(sender, amount + 10000);
-                //if (!moreBalance) return Results.BadRequest("Balance not Enough");
+                 var resultSender = _services.AddBalance(sender, amount);
 
-                var resultSender = _services.AddBalance(sender, amount);
+                 // var resultReceiver = _services.AddBalance(sender, amount);
 
-                // var resultReceiver = _services.AddBalance(sender, amount);
+                 if (resultSender == 0) return Results.BadRequest("Error Withdraw");
 
-                if (resultSender == 0) return Results.BadRequest("Error Withdraw");
+                 var transaction = _services.CreateTransaction(sender, amount, note, "Withdraw");
+                 if (transaction is null) return Results.BadRequest("Error Creating Transaction history");
 
-                var transaction = _services.CreateTransaction(sender, amount, note, "Withdraw");
-                if (transaction is null) return Results.BadRequest("Error Creating Transaction history");
+                 return Results.Ok("Withdraw Money from bank");
 
-                return Results.Ok("Withdraw Money from bank");
+             })
+             .WithName("Withdraw").WithOpenApi();
 
-            })
-            .WithName("Withdraw").WithOpenApi();
+         app.MapGet("/api/Transaction-history/{number}", (string number) => {
 
-        app.MapGet("/api/Transaction-history/{number}", (string number) => {
+             var user = _services.GetUserbyPhnum(number);
+             if (user is null) return Results.NotFound("Phone num not found");
 
-            var user = _services.GetUserbyPhnum(number);
-            if (user is null) return Results.NotFound("Phone num not found");
+             var transactionList = _services.getTransactionHistory(user.UserId);
+             if (transactionList is null) return Results.NoContent();
 
-            var transactionList = _services.getTransactionHistory(user.UserId);
-            if (transactionList is null) return Results.NoContent();
+             return Results.Ok(transactionList);
 
-            return Results.Ok(transactionList);
 
+         }).WithName("Transaction_History").WithOpenApi();
 
-        }).WithName("Transaction_History").WithOpenApi();
 
 
-
+     */
     }
 }

@@ -3,10 +3,10 @@ using DotNetBatch5.Database.Models;
 using System;
 using Newtonsoft.Json;
 Console.WriteLine("Hello, World!");
-AppDbContext appDb = new AppDbContext();
 
 
-Human nnn = new Human("Mg Mg",19,146.2);
+
+/*Human nnn = new Human("Mg Mg",19,146.2);
 
 Console.WriteLine( nnn.ToJson());
 string jsonH = nnn.ToJson();
@@ -21,6 +21,37 @@ foreach (int num in bb)
 {
     Console.Write(num + " ");
 }
+*/
+
+
+
+var GID = Guid.NewGuid();
+Console.WriteLine(GID);
+
+var GID2 = Guid.NewGuid();
+Console.WriteLine(GID2);
+
+string formatGID = GID.ToString().Replace('-', '\0').ToUpper();
+formatGID = formatGID.Substring(0, 4) + formatGID.Substring(30, 2);
+Console.WriteLine(formatGID);
+
+string formatGID2 = GID2.ToString().Replace('-', '\0').ToUpper();
+formatGID2 = formatGID2.Substring(0, 4) + formatGID2.Substring(30, 2);
+Console.WriteLine(formatGID2);
+
+var UID = Ulid.NewUlid().ToString();
+Console.WriteLine(UID);
+var formatUID = UID.Substring(2, 2) + UID.Substring(UID.Length / 2, 2) + UID.Substring(UID.Length-3,2);
+Console.WriteLine(formatUID);
+
+var UID2 = Ulid.NewUlid().ToString();
+Console.WriteLine(UID2);
+var formatUID2 = UID2.Substring(2, 2)+ UID2.Substring(UID.Length/2, 2) + UID2.Substring(UID2.Length - 3, 2);
+Console.WriteLine(formatUID2);
+
+
+
+
 
 
 public class Human

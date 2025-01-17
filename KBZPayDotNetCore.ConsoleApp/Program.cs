@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿/*// See https://aka.ms/new-console-template for more information
 using KPayEfcore.Database.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -7,7 +7,7 @@ using System.Net.NetworkInformation;
 
 Console.WriteLine("Hello, World!");
 
-/*
+*//*
  
 Kpay
 
@@ -39,7 +39,7 @@ API
 
 
 
- */
+ *//*
 
 
 
@@ -750,3 +750,4 @@ static class DevEntension {
 
 }
 
+*/
