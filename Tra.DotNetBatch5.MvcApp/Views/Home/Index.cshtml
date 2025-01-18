@@ -1,0 +1,28 @@
+﻿@model HomeResponseModel
+@{
+    ViewData["Title"] = "Home Page";
+
+
+    string message = "testing succeeded";
+}
+
+<div class="text-center">
+    <h1 class="display-4"><b>Welcome</b></h1>
+    <h2 class="display-4">@message</h2>
+    <h1 class="display-4">@ViewBag.Message</h1>
+    <p class="display-4">
+        Message : @Model.Message
+        <br>
+        Level : @Model.Level
+
+    </p>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+@section scripts {
+
+<script>
+
+    console.log("Load The PAge With JS Scripts");
+</script>
+
+}

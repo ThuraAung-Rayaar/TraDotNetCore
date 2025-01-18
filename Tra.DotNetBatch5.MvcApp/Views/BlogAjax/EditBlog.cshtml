@@ -1,0 +1,28 @@
+﻿@{
+
+    ViewData["Title"] = "Update Blog";
+
+}
+@model BlogRequestModel
+<form method="post" action="/BlogAjax/Update">
+    <div class="mb-3">
+        <input type="hidden" name="BlogId" value="@Model.BlogId">
+        <label for="txtTitle" class="form-label">Title</label>
+        <input type="text" class="form-control" id="txtTitle" name="BlogTitle" value="@Model.BlogTitle">
+    </div>
+    <div class="mb-3">
+        <label for="txtAuthor" class="form-label">Author</label>
+        <input type="text" class="form-control" id="txtAuthor" name="BlogAuthor" value="@Model.BlogAuthor">
+    </div>
+    <div class="mb-3">
+        <label for="txtContent" class="form-label">Content</label>
+        <input type="text" class="form-control" id="txtContent" name="BlogContent" value="@Model.BlogContent">
+    </div>
+    <button type="button" id="btnCancel" class="btn btn-secondary">Cancel</button>
+    <button type="submit" id="btnSave" class="btn btn-success">Save</button>
+
+
+
+</form>
+
+

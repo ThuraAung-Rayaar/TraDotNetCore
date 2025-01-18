@@ -64,9 +64,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DotNetCore.DependencyInject
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DigitalWallet", "DigitalWallet", "{C637D23E-3641-40B2-85D3-99A402C8D38C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRADotNetBatch5.miniDigitalWallet.Transaction.MinimalAPI", "DotNetTrainingBatch5.miniDigitalWallet.Transaction.MinimalAPI\TRADotNetBatch5.miniDigitalWallet.Transaction.MinimalAPI.csproj", "{F4846903-A191-453E-87FB-69902C7ABA22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TRADotNetBatch5.miniDigitalWallet.Transaction.MinimalAPI", "DotNetTrainingBatch5.miniDigitalWallet.Transaction.MinimalAPI\TRADotNetBatch5.miniDigitalWallet.Transaction.MinimalAPI.csproj", "{F4846903-A191-453E-87FB-69902C7ABA22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TRADotNetBatch5.miniDigitalWallet.Database", "TRADotNetBatch5.miniDigitalWallet.Database\TRADotNetBatch5.miniDigitalWallet.Database.csproj", "{BB58DD72-F9C3-46CB-A165-473FE873526E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TRADotNetBatch5.miniDigitalWallet.Database", "TRADotNetBatch5.miniDigitalWallet.Database\TRADotNetBatch5.miniDigitalWallet.Database.csproj", "{BB58DD72-F9C3-46CB-A165-473FE873526E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MVC", "MVC", "{AD772B46-B8B6-4E3B-8B44-398CED371200}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tra.DotNetBatch5.MvcApp", "Tra.DotNetBatch5.MvcApp\Tra.DotNetBatch5.MvcApp.csproj", "{44BAEFD3-A87B-4708-91F7-541EACE71C81}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlogServices.Domain", "Blog.Services\BlogServices.Domain.csproj", "{26A0A69C-38E8-4C4D-B39C-D1B3BFCE7104}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -170,6 +176,14 @@ Global
 		{BB58DD72-F9C3-46CB-A165-473FE873526E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB58DD72-F9C3-46CB-A165-473FE873526E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB58DD72-F9C3-46CB-A165-473FE873526E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44BAEFD3-A87B-4708-91F7-541EACE71C81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44BAEFD3-A87B-4708-91F7-541EACE71C81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44BAEFD3-A87B-4708-91F7-541EACE71C81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44BAEFD3-A87B-4708-91F7-541EACE71C81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26A0A69C-38E8-4C4D-B39C-D1B3BFCE7104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26A0A69C-38E8-4C4D-B39C-D1B3BFCE7104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26A0A69C-38E8-4C4D-B39C-D1B3BFCE7104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26A0A69C-38E8-4C4D-B39C-D1B3BFCE7104}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -199,6 +213,8 @@ Global
 		{C1990698-AFB1-479C-A1C6-B6AA35AA724A} = {B8A920A3-A772-42C9-9A24-BC1114DB671D}
 		{F4846903-A191-453E-87FB-69902C7ABA22} = {C637D23E-3641-40B2-85D3-99A402C8D38C}
 		{BB58DD72-F9C3-46CB-A165-473FE873526E} = {C637D23E-3641-40B2-85D3-99A402C8D38C}
+		{44BAEFD3-A87B-4708-91F7-541EACE71C81} = {AD772B46-B8B6-4E3B-8B44-398CED371200}
+		{26A0A69C-38E8-4C4D-B39C-D1B3BFCE7104} = {AD772B46-B8B6-4E3B-8B44-398CED371200}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26DE019A-8604-40AA-8742-7355859C4CF8}

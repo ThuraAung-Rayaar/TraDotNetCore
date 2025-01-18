@@ -1,0 +1,88 @@
+﻿@model List<TblBlog>
+@{
+    ViewData["Title"] = "Blog Page";
+
+    bool isSuccessMessage = TempData["isSuccess"]!=null;
+
+    bool isSuccess = false;
+    string message = "";
+    if(isSuccessMessage)
+    {
+        isSuccess = Convert.ToBoolean( TempData["isSuccess"]);
+        message = Convert.ToString(TempData["Message"]);
+    }
+
+
+    // string message = "testing succeeded";
+}
+
+
+
+@if (isSuccessMessage)
+{
+    if(isSuccess)
+    {
+        <div class="alert alert-success" role="alert">
+            @message
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            @message
+        </div>
+    }    
+
+
+}
+
+
+
+
+
+
+
+   <div>
+
+    <a href="/Blog/Create"  class="btn btn-outline-success" > create new Blog</a>
+    @*@<a href="/Blog/Create" class="btn btn-outline-danger"> Delete Blog</a>*@
+
+
+
+    <table  class=" table table-responsive table-bordered ">
+
+        <thead class=" table">
+            <tr>
+                <th></th>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Content</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+
+            
+            @foreach (var item in Model)
+            {
+                var blog = item;
+                <tr>
+                    <td>
+                        <a href="/Blog/Edit/@(blog.BlogId)" class="btn btn-warning">Edit</a> 
+                        <a href="/Blog/Delete/@(blog.BlogId)" class="btn btn-danger">Delete</a>
+                        @* <a href="/Blog/Delete?blogId=@(blog.BlogId)" class="btn btn-danger">Delete</a> *@
+                    </td>
+                    <td>@item.BlogId</td>
+                    <td>@item.BlogTitle</td>
+                    <td>@item.BlogAuthor</td>
+                    <td>@item.BlogContent</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+   </div>
+    
